@@ -1,0 +1,23 @@
+{
+  "name": "www_test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "babell.config.js",
+  "scripts": {
+    "test": "jest ."
+  },
+  "author": "",
+  "license": "ISC",
+  "jest": {
+    "setupFilesAfterEnv": [
+      "<rootDir>/jest-setup.js"
+    ]
+  },
+  "dependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "jest": "^24.1.0",
+    "jest-image-snapshot": "^2.8.1",
+    "puppeteer": "^1.12.2"
+  }
+}
