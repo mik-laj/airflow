@@ -1853,6 +1853,17 @@ class ConfigurationView(AirflowBaseView):
                 table=table)
 
 
+class PygmentsView(AirflowBaseView):
+
+    @expose('/pygments.css')
+    def style_defs(self):
+        formatter = HtmlFormatter(style='default')
+        style_defs = formatter.get_style_defs()
+        response = make_response(style_defs, 200)
+        response.headers['Content-Type'] = "text/css"
+        return response
+
+
 ######################################################################################
 #                                    ModelViews
 ######################################################################################
