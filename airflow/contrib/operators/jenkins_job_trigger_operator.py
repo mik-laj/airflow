@@ -17,7 +17,7 @@
 # specific language governing permissions and limitations
 # under the License.
 
-import time
+from time import sleep
 import socket
 import json
 from airflow.exceptions import AirflowException
@@ -181,7 +181,7 @@ class JenkinsJobTriggerOperator(BaseOperator):
                                   build_number)
                     return build_number
             try_count += 1
-            time.sleep(self.sleep_time)
+            sleep(self.sleep_time)
         raise AirflowException("The job hasn't been executed"
                                " after polling the queue %d times",
                                self.max_try_before_job_appears)
@@ -211,7 +211,7 @@ class JenkinsJobTriggerOperator(BaseOperator):
         build_number = self.poll_job_in_queue(
             jenkins_response['headers']['Location'], jenkins_server)
 
-        time.sleep(self.sleep_time)
+        sleep(self.sleep_time)
         keep_polling_job = True
         build_info = None
         while keep_polling_job:
@@ -229,7 +229,7 @@ class JenkinsJobTriggerOperator(BaseOperator):
                 else:
                     self.log.info('Waiting for job to complete : %s , build %s',
                                   self.job_name, build_number)
-                    time.sleep(self.sleep_time)
+                    sleep(self.sleep_time)
             except jenkins.NotFoundException as err:
                 raise AirflowException(
                     'Jenkins job status check failed. Final error was: %s'

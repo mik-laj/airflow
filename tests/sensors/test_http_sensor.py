@@ -69,7 +69,7 @@ class HttpSensorTests(unittest.TestCase):
             endpoint='',
             request_params={},
             response_check=resp_check,
-            timeout=5,
+            timeout=2,
             poke_interval=1)
         with self.assertRaisesRegexp(AirflowException, 'AirflowException raised here!'):
             task.execute(None)
@@ -87,7 +87,7 @@ class HttpSensorTests(unittest.TestCase):
             request_params={},
             method='HEAD',
             response_check=resp_check,
-            timeout=5,
+            timeout=2,
             poke_interval=1)
 
         task.execute(None)
@@ -124,7 +124,7 @@ class HttpSensorTests(unittest.TestCase):
             request_params={},
             method='HEAD',
             response_check=resp_check,
-            timeout=5,
+            timeout=2,
             poke_interval=1
         )
 

@@ -37,8 +37,9 @@ except ImportError:
 
 
 class JenkinsOperatorTestCase(unittest.TestCase):
-    @unittest.skipIf(mock is None, 'mock package not present')
-    def test_execute(self):
+
+    @mock.patch('airflow.contrib.operators.jenkins_job_trigger_operator.sleep', return_value=None)
+    def test_execute(self, sleep_mock):
         jenkins_mock = mock.Mock(spec=jenkins.Jenkins, auth='secret')
         jenkins_mock.get_build_info.return_value = \
             {'result': 'SUCCESS',
@@ -74,8 +75,8 @@ class JenkinsOperatorTestCase(unittest.TestCase):
             jenkins_mock.get_build_info.assert_called_with(name='a_job_on_jenkins',
                                                            number='1')
 
-    @unittest.skipIf(mock is None, 'mock package not present')
-    def test_execute_job_polling_loop(self):
+    @mock.patch('airflow.contrib.operators.jenkins_job_trigger_operator.sleep', return_value=None)
+    def test_execute_job_polling_loop(self, sleep_mock):
         jenkins_mock = mock.Mock(spec=jenkins.Jenkins, auth='secret')
         jenkins_mock.get_job_info.return_value = {'nextBuildNumber': '1'}
         jenkins_mock.get_build_info.side_effect = \
@@ -109,8 +110,8 @@ class JenkinsOperatorTestCase(unittest.TestCase):
             operator.execute(None)
             self.assertEqual(jenkins_mock.get_build_info.call_count, 2)
 
-    @unittest.skipIf(mock is None, 'mock package not present')
-    def test_execute_job_failure(self):
+    @mock.patch('airflow.contrib.operators.jenkins_job_trigger_operator.sleep', return_value=None)
+    def test_execute_job_failure(self, sleep_mock):
         jenkins_mock = mock.Mock(spec=jenkins.Jenkins, auth='secret')
         jenkins_mock.get_job_info.return_value = {'nextBuildNumber': '1'}
         jenkins_mock.get_build_info.return_value = {

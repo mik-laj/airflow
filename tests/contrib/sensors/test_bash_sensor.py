@@ -21,6 +21,7 @@
 import unittest
 
 import datetime
+from unittest import mock
 
 from airflow import DAG, configuration
 from airflow.contrib.sensors.bash_sensor import BashSensor
@@ -48,7 +49,8 @@ class TestBashSensor(unittest.TestCase):
         )
         t.execute(None)
 
-    def test_false_condition(self):
+    @mock.patch('airflow.sensors.base_sensor_operator.sleep', return_value=None)
+    def test_false_condition(self, sleep_mock):
         t = BashSensor(
             task_id='test_false_condition',
             bash_command='freturn() { return "$1"; }; freturn 1',

@@ -19,6 +19,8 @@
 
 import unittest
 import datetime
+from unittest import mock
+
 from dateutil.tz import tzlocal
 from mock import MagicMock, patch
 
@@ -109,7 +111,8 @@ class TestEmrJobFlowSensor(unittest.TestCase):
         # Mock out the emr_client creator
         self.boto3_session_mock = MagicMock(return_value=mock_emr_session)
 
-    def test_execute_calls_with_the_job_flow_id_until_it_reaches_a_terminal_state(self):
+    @mock.patch('airflow.sensors.base_sensor_operator.sleep', return_value=None)
+    def test_execute_calls_with_the_job_flow_id_until_it_reaches_a_terminal_state(self, mock_tool):
         with patch('boto3.session.Session', self.boto3_session_mock):
             operator = EmrJobFlowSensor(
                 task_id='test_task',

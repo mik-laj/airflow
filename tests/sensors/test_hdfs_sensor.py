@@ -19,6 +19,7 @@
 import unittest
 
 from datetime import timedelta
+from unittest import mock
 
 from airflow import configuration
 from airflow.exceptions import AirflowSensorTimeout
@@ -37,7 +38,8 @@ class HdfsSensorTests(unittest.TestCase):
     def setUp(self):
         self.hook = FakeHDFSHook
 
-    def test_legacy_file_exist(self):
+    @mock.patch('airflow.sensors.base_sensor_operator.sleep', return_value=None)
+    def test_legacy_file_exist(self, mock_tool):
         """
         Test the legacy behaviour
         :return:
@@ -54,7 +56,8 @@ class HdfsSensorTests(unittest.TestCase):
         # Then
         # Nothing happens, nothing is raised exec is ok
 
-    def test_legacy_file_exist_but_filesize(self):
+    @mock.patch('airflow.sensors.base_sensor_operator.sleep', return_value=None)
+    def test_legacy_file_exist_but_filesize(self, mock_tool):
         """
         Test the legacy behaviour with the filesize
         :return:
@@ -73,7 +76,8 @@ class HdfsSensorTests(unittest.TestCase):
         with self.assertRaises(AirflowSensorTimeout):
             task.execute(None)
 
-    def test_legacy_file_does_not_exists(self):
+    @mock.patch('airflow.sensors.base_sensor_operator.sleep', return_value=None)
+    def test_legacy_file_does_not_exists(self, mock_tool):
         """
         Test the legacy behaviour
         :return:

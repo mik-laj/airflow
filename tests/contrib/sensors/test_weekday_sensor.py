@@ -19,6 +19,8 @@
 #
 
 import unittest
+from unittest import mock
+
 from airflow import DAG, configuration, models
 from airflow.contrib.sensors.weekday_sensor import DayOfWeekSensor
 from airflow.contrib.utils.weekday import WeekDay
@@ -59,7 +61,8 @@ class DayOfWeekSensorTests(unittest.TestCase):
         session.commit()
         session.close()
 
-    def test_weekday_sensor_true(self):
+    @mock.patch('airflow.sensors.base_sensor_operator.sleep', return_value=None)
+    def test_weekday_sensor_true(self, sleep_mock):
         t = DayOfWeekSensor(
             task_id='weekday_sensor_check_true',
             week_day='Thursday',
@@ -67,7 +70,8 @@ class DayOfWeekSensorTests(unittest.TestCase):
             dag=self.dag)
         t.run(start_date=WEEKDAY_DATE, end_date=WEEKDAY_DATE, ignore_ti_state=True)
 
-    def test_weekday_sensor_false(self):
+    @mock.patch('airflow.sensors.base_sensor_operator.sleep', return_value=None)
+    def test_weekday_sensor_false(self, mock_tool):
         t = DayOfWeekSensor(
             task_id='weekday_sensor_check_false',
             poke_interval=1,
@@ -78,7 +82,8 @@ class DayOfWeekSensorTests(unittest.TestCase):
         with self.assertRaises(AirflowSensorTimeout):
             t.run(start_date=WEEKDAY_DATE, end_date=WEEKDAY_DATE, ignore_ti_state=True)
 
-    def test_invalid_weekday_number(self):
+    @mock.patch('airflow.sensors.base_sensor_operator.sleep', return_value=None)
+    def test_invalid_weekday_number(self, mock_tool):
         invalid_week_day = 'Thsday'
         with self.assertRaisesRegexp(AttributeError,
                                      'Invalid Week Day passed: "{}"'.format(
@@ -89,7 +94,8 @@ class DayOfWeekSensorTests(unittest.TestCase):
                 use_task_execution_day=True,
                 dag=self.dag)
 
-    def test_weekday_sensor_with_enum(self):
+    @mock.patch('airflow.sensors.base_sensor_operator.sleep', return_value=None)
+    def test_weekday_sensor_with_enum(self, mock_tool):
         week_day = WeekDay.THURSDAY
         t = DayOfWeekSensor(
             task_id='weekday_sensor_check_true',
@@ -99,7 +105,8 @@ class DayOfWeekSensorTests(unittest.TestCase):
         t.run(start_date=WEEKDAY_DATE, end_date=WEEKDAY_DATE, ignore_ti_state=True)
         self.assertEqual(t.week_day, week_day)
 
-    def test_weekday_sensor_with_enum_set(self):
+    @mock.patch('airflow.sensors.base_sensor_operator.sleep', return_value=None)
+    def test_weekday_sensor_with_enum_set(self, mock_tool):
         week_day = {WeekDay.THURSDAY}
         t = DayOfWeekSensor(
             task_id='weekday_sensor_check_true',
@@ -109,7 +116,8 @@ class DayOfWeekSensorTests(unittest.TestCase):
         t.run(start_date=WEEKDAY_DATE, end_date=WEEKDAY_DATE, ignore_ti_state=True)
         self.assertEqual(t.week_day, week_day)
 
-    def test_weekday_sensor_with_enum_set_2_items(self):
+    @mock.patch('airflow.sensors.base_sensor_operator.sleep', return_value=None)
+    def test_weekday_sensor_with_enum_set_2_items(self, mock_tool):
         week_day = {WeekDay.THURSDAY, WeekDay.FRIDAY}
         t = DayOfWeekSensor(
             task_id='weekday_sensor_check_true',
@@ -119,7 +127,8 @@ class DayOfWeekSensorTests(unittest.TestCase):
         t.run(start_date=WEEKDAY_DATE, end_date=WEEKDAY_DATE, ignore_ti_state=True)
         self.assertEqual(t.week_day, week_day)
 
-    def test_weekday_sensor_with_string_set(self):
+    @mock.patch('airflow.sensors.base_sensor_operator.sleep', return_value=None)
+    def test_weekday_sensor_with_string_set(self, mock_tool):
         week_day = {'Thursday'}
         t = DayOfWeekSensor(
             task_id='weekday_sensor_check_true',
@@ -129,7 +138,8 @@ class DayOfWeekSensorTests(unittest.TestCase):
         t.run(start_date=WEEKDAY_DATE, end_date=WEEKDAY_DATE, ignore_ti_state=True)
         self.assertEqual(t.week_day, week_day)
 
-    def test_weekday_sensor_with_string_set_2_items(self):
+    @mock.patch('airflow.sensors.base_sensor_operator.sleep', return_value=None)
+    def test_weekday_sensor_with_string_set_2_items(self, mock_tool):
         week_day = {'Thursday', 'Friday'}
         t = DayOfWeekSensor(
             task_id='weekday_sensor_check_true',
@@ -139,7 +149,8 @@ class DayOfWeekSensorTests(unittest.TestCase):
         t.run(start_date=WEEKDAY_DATE, end_date=WEEKDAY_DATE, ignore_ti_state=True)
         self.assertEqual(t.week_day, week_day)
 
-    def test_weekday_sensor_with_invalid_type(self):
+    @mock.patch('airflow.sensors.base_sensor_operator.sleep', return_value=None)
+    def test_weekday_sensor_with_invalid_type(self, mock_tool):
         invalid_week_day = ['Thsday']
         with self.assertRaisesRegexp(TypeError,
                                      'Unsupported Type for week_day parameter:'
@@ -152,7 +163,8 @@ class DayOfWeekSensorTests(unittest.TestCase):
                 use_task_execution_day=True,
                 dag=self.dag)
 
-    def test_weekday_sensor_timeout_with_set(self):
+    @mock.patch('airflow.sensors.base_sensor_operator.sleep', return_value=None)
+    def test_weekday_sensor_timeout_with_set(self, mock_tool):
         t = DayOfWeekSensor(
             task_id='weekday_sensor_check_false',
             poke_interval=1,
