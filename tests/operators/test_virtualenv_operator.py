@@ -32,6 +32,7 @@ from airflow.operators.python_operator import PythonVirtualenvOperator
 from airflow.utils import timezone
 
 from airflow.exceptions import AirflowException
+from tests.unils_test import skipOtherDatabaseEngine
 
 DEFAULT_DATE = timezone.datetime(2016, 1, 1)
 END_DATE = timezone.datetime(2016, 1, 2)
@@ -39,6 +40,7 @@ INTERVAL = datetime.timedelta(hours=12)
 FROZEN_NOW = timezone.datetime(2016, 1, 2, 12, 1, 1)
 
 
+@skipOtherDatabaseEngine("sqlite")
 class TestPythonVirtualenvOperator(unittest.TestCase):
 
     def setUp(self):

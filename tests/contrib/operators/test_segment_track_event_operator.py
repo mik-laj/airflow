@@ -23,11 +23,13 @@ import unittest
 from airflow import configuration, AirflowException
 
 from airflow.contrib.hooks.segment_hook import SegmentHook
+from tests.unils_test import skipOtherDatabaseEngine
 
 TEST_CONN_ID = 'test_segment'
 WRITE_KEY = 'foo'
 
 
+@skipOtherDatabaseEngine('sqlite')
 class TestSegmentHook(unittest.TestCase):
 
     def setUp(self):

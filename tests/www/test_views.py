@@ -49,6 +49,7 @@ from airflow.utils.db import create_session
 from airflow.utils.state import State
 from airflow.utils.timezone import datetime
 from airflow.www import app as application
+from tests.unils_test import skipOtherDatabaseEngine
 
 
 class TestBase(unittest.TestCase):
@@ -262,6 +263,7 @@ class TestPoolModelView(TestBase):
         self.check_content_not_in_response('test-pool<script>', resp)
 
 
+@skipOtherDatabaseEngine("sqlite")
 class TestMountPoint(unittest.TestCase):
     def setUp(self):
         application.app = None

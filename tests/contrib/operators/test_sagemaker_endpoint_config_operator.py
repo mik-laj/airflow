@@ -18,6 +18,9 @@
 # under the License.
 
 import unittest
+
+from tests.unils_test import skipOtherDatabaseEngine
+
 try:
     from unittest import mock
 except ImportError:
@@ -48,6 +51,7 @@ create_endpoint_config_params = {
 }
 
 
+@skipOtherDatabaseEngine('sqlite')
 class TestSageMakerEndpointConfigOperator(unittest.TestCase):
 
     def setUp(self):

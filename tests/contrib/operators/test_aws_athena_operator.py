@@ -23,6 +23,7 @@ import unittest
 from airflow.contrib.operators.aws_athena_operator import AWSAthenaOperator
 from airflow.contrib.hooks.aws_athena_hook import AWSAthenaHook
 from airflow import configuration
+from tests.unils_test import skipOtherDatabaseEngine
 
 try:
     from unittest import mock
@@ -48,6 +49,7 @@ result_configuration = {
 }
 
 
+@skipOtherDatabaseEngine("sqlite")
 class TestAWSAthenaOperator(unittest.TestCase):
 
     def setUp(self):

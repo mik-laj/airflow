@@ -18,6 +18,9 @@
 # under the License.
 
 import unittest
+
+from tests.unils_test import skipOtherDatabaseEngine
+
 try:
     from unittest import mock
 except ImportError:
@@ -111,6 +114,7 @@ create_tuning_params = {'HyperParameterTuningJobName': job_name,
                         }
 
 
+@skipOtherDatabaseEngine('sqlite')
 class TestSageMakerTuningOperator(unittest.TestCase):
 
     def setUp(self):

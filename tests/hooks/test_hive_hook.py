@@ -36,6 +36,7 @@ from airflow.operators.hive_operator import HiveOperator
 from airflow.utils import timezone
 from airflow.utils.operator_helpers import AIRFLOW_VAR_NAME_FORMAT_MAPPING
 from airflow.utils.tests import assertEqualIgnoreMultipleSpaces
+from tests.unils_test import skipOtherDatabaseEngine
 
 configuration.load_test_config()
 
@@ -225,6 +226,7 @@ class TestHiveCliHook(unittest.TestCase):
         assertEqualIgnoreMultipleSpaces(self, mock_run_cli.call_args_list[0][0][0], query)
 
 
+@skipOtherDatabaseEngine("sqlite")
 class TestHiveMetastoreHook(HiveEnvironmentTest):
     VALID_FILTER_MAP = {'key2': 'value2'}
 

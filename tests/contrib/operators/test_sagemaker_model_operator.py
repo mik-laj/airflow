@@ -18,6 +18,9 @@
 # under the License.
 
 import unittest
+
+from tests.unils_test import skipOtherDatabaseEngine
+
 try:
     from unittest import mock
 except ImportError:
@@ -51,6 +54,7 @@ create_model_params = {
 }
 
 
+@skipOtherDatabaseEngine('sqlite')
 class TestSageMakerModelOperator(unittest.TestCase):
 
     def setUp(self):

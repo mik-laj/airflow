@@ -18,6 +18,9 @@
 # under the License.
 
 import unittest
+
+from tests.unils_test import skipOtherDatabaseEngine
+
 try:
     from unittest import mock
 except ImportError:
@@ -86,6 +89,7 @@ create_training_params = \
     }
 
 
+@skipOtherDatabaseEngine('sqlite')
 class TestSageMakerTrainingOperator(unittest.TestCase):
 
     def setUp(self):
