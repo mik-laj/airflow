@@ -37,27 +37,45 @@ env:
     - TOX_ENV=py35-backend_postgres-env_kubernetes KUBERNETES_VERSION=v1.10.0 PYTHON_VERSION=3
 
 stages:
-  - pre-test
+  - lint
+  - precache
   - test
 
 jobs:
   include:
     - name: Flake8
-      stage: pre-test
-      script: pip install flake8 && flake8
+      stage: lint
+      cache: false
+      before_install: skip
+      install: pip install flake8
+      script: flake8
     - name: Check license header
-      stage: pre-test
+      stage: lint
+      cache: false
+      before_install: skip
+      install: skip
       script: scripts/ci/6-check-license.sh
     - name: Check docs
-      stage: pre-test
+      stage: lint
+      cache: false
+      before_install: skip
+      install: pip install -e .[doc]
       script: pip install -e .[doc] && docs/build.sh
+      script: docs/build.sh
+    - name: Precache docker images
+      stage: precache
+      script: true
 
 cache:
   directories:
     - $HOME/.wheelhouse/
     - $HOME/.cache/pip
     - $HOME/.travis_cache/
+    - $HOME/.docker-cache/
+
 before_install:
+  # Load cached docker images
+  - if [[ -d $HOME/.docker-cache ]]; then ls $HOME/.docker-cache/*.tar.gz | xargs -I {file} sh -c "zcat {file} | docker load"; fi
   # Required for K8s v1.10.x. See
   # https://github.com/kubernetes/kubernetes/issues/61058#issuecomment-372764783
   - if [ ! -z "$KUBERNETES_VERSION" ]; then sudo mount --make-shared / && sudo service docker restart; fi
@@ -70,20 +88,24 @@ install:
   - pip install --upgrade pip
   - docker-compose -f scripts/ci/docker-compose.yml pull --quiet --parallel
 script:
-  - if [ -z "$KUBERNETES_VERSION" ]; then
-      docker-compose --log-level ERROR -f scripts/ci/docker-compose.yml run airflow-testing /app/scripts/ci/run-ci.sh;
-    fi
-  - if [ ! -z "$KUBERNETES_VERSION" ]; then
-      ./scripts/ci/kubernetes/minikube/stop_minikube.sh &&
-      ./scripts/ci/kubernetes/setup_kubernetes.sh &&
-      ./scripts/ci/kubernetes/kube/deploy.sh -d persistent_mode &&
-      MINIKUBE_IP=$(minikube ip) docker-compose --log-level ERROR -f scripts/ci/docker-compose.yml -f scripts/ci/docker-compose-kubernetes.yml run airflow-testing /app/scripts/ci/run-ci.sh;
-    fi
-  - if [ ! -z "$KUBERNETES_VERSION" ]; then
-      ./scripts/ci/kubernetes/minikube/stop_minikube.sh &&
-      ./scripts/ci/kubernetes/setup_kubernetes.sh &&
-      ./scripts/ci/kubernetes/kube/deploy.sh -d git_mode &&
-      MINIKUBE_IP=$(minikube ip) docker-compose --log-level ERROR -f scripts/ci/docker-compose.yml -f scripts/ci/docker-compose-kubernetes.yml run airflow-testing /app/scripts/ci/run-ci.sh;
-    fi
+  - echo 1
+#  - if [ -z "$KUBERNETES_VERSION" ]; then
+#      docker-compose --log-level ERROR -f scripts/ci/docker-compose.yml run airflow-testing /app/scripts/ci/run-ci.sh;
+#    fi
+#  - if [ ! -z "$KUBERNETES_VERSION" ]; then
+#      ./scripts/ci/kubernetes/minikube/stop_minikube.sh &&
+#      ./scripts/ci/kubernetes/setup_kubernetes.sh &&
+#      ./scripts/ci/kubernetes/kube/deploy.sh -d persistent_mode &&
+#      MINIKUBE_IP=$(minikube ip) docker-compose --log-level ERROR -f scripts/ci/docker-compose.yml -f scripts/ci/docker-compose-kubernetes.yml run airflow-testing /app/scripts/ci/run-ci.sh;
+#    fi
+#  - if [ ! -z "$KUBERNETES_VERSION" ]; then
+#      ./scripts/ci/kubernetes/minikube/stop_minikube.sh &&
+#      ./scripts/ci/kubernetes/setup_kubernetes.sh &&
+#      ./scripts/ci/kubernetes/kube/deploy.sh -d git_mode &&
+#      MINIKUBE_IP=$(minikube ip) docker-compose --log-level ERROR -f scripts/ci/docker-compose.yml -f scripts/ci/docker-compose-kubernetes.yml run airflow-testing /app/scripts/ci/run-ci.sh;
+#    fi
 before_cache:
-  - sudo chown -R travis:travis $HOME/.cache/pip $HOME/.wheelhouse/
+  # Save tagged docker images
+  - mkdir -p $HOME/.docker-cache && docker images -a --filter='dangling=false' --format '{{.Repository}}:{{.Tag}} {{.ID}}'
+    | xargs -n 2 -t sh -c 'test -e $HOME/docker/$1.tar.gz || docker save $0 | gzip -2 > $HOME/.docker-cache/$1.tar.gz'
+  - sudo chown -R travis:travis $HOME/.cache/pip $HOME/.wheelhouse/ $HOME/.docker-cache/
