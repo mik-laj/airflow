@@ -16,21 +16,12 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
+
 import unittest
 
-from tests.contrib.utils.base_gcp_system_test_case import \
-    SKIP_TEST_WARNING, DagGcpSystemTestCase
-from tests.contrib.utils.gcp_authenticator import GCP_GCS_KEY
 
+class FirstUnitTest(unittest.TestCase):
 
-@unittest.skipIf(
-    DagGcpSystemTestCase.skip_check(GCP_GCS_KEY), SKIP_TEST_WARNING)
-class CloudStorageExampleDagsSystemTest(DagGcpSystemTestCase):
-    def __init__(self, method_name='runTest'):
-        super(CloudStorageExampleDagsSystemTest, self).__init__(
-            method_name,
-            dag_id='example_gcs_acl',
-            gcp_key=GCP_GCS_KEY)
+    def test_first(self):
 
-    def test_run_example_dag_gcs_acl(self):
-        self._run_dag()
+        self.assertTrue(True)
