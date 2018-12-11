@@ -98,7 +98,7 @@ DEFAULT_LOGGING_CONFIG = {
             'propagate': False,
         },
         'flask_appbuilder': {
-            'handler': ['console'],
+            'handlers': ['console'],
             'level': FAB_LOG_LEVEL,
             'propagate': True,
         }
