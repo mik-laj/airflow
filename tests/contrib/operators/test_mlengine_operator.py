@@ -109,7 +109,7 @@ class MLEngineBatchPredictionOperatorTest(unittest.TestCase):
                     'jobId': 'test_prediction',
                     'predictionInput': input_with_model
                 }, ANY)
-            self.assertEquals(success_message['predictionOutput'],
+            self.assertEqual(success_message['predictionOutput'],
                               prediction_output)
 
     def testSuccessWithVersion(self):
@@ -148,7 +148,7 @@ class MLEngineBatchPredictionOperatorTest(unittest.TestCase):
                     'jobId': 'test_prediction',
                     'predictionInput': input_with_version
                 }, ANY)
-            self.assertEquals(success_message['predictionOutput'],
+            self.assertEqual(success_message['predictionOutput'],
                               prediction_output)
 
     def testSuccessWithURI(self):
@@ -185,7 +185,7 @@ class MLEngineBatchPredictionOperatorTest(unittest.TestCase):
                     'jobId': 'test_prediction',
                     'predictionInput': input_with_uri
                 }, ANY)
-            self.assertEquals(success_message['predictionOutput'],
+            self.assertEqual(success_message['predictionOutput'],
                               prediction_output)
 
     def testInvalidModelOrigin(self):
@@ -195,7 +195,7 @@ class MLEngineBatchPredictionOperatorTest(unittest.TestCase):
         task_args['model_name'] = 'fake_model'
         with self.assertRaises(AirflowException) as context:
             MLEngineBatchPredictionOperator(**task_args).execute(None)
-        self.assertEquals('Ambiguous model origin: Both uri and '
+        self.assertEqual('Ambiguous model origin: Both uri and '
                           'model/version name are provided.',
                           str(context.exception))
 
@@ -206,7 +206,7 @@ class MLEngineBatchPredictionOperatorTest(unittest.TestCase):
         task_args['version_name'] = 'fake_version'
         with self.assertRaises(AirflowException) as context:
             MLEngineBatchPredictionOperator(**task_args).execute(None)
-        self.assertEquals('Ambiguous model origin: Both uri and '
+        self.assertEqual('Ambiguous model origin: Both uri and '
                           'model/version name are provided.',
                           str(context.exception))
 
@@ -215,7 +215,7 @@ class MLEngineBatchPredictionOperatorTest(unittest.TestCase):
         task_args['version_name'] = 'bare_version'
         with self.assertRaises(AirflowException) as context:
             MLEngineBatchPredictionOperator(**task_args).execute(None)
-        self.assertEquals('Missing model: Batch prediction expects a model '
+        self.assertEqual('Missing model: Batch prediction expects a model '
                           'name when a version name is provided.',
                           str(context.exception))
 
@@ -223,7 +223,7 @@ class MLEngineBatchPredictionOperatorTest(unittest.TestCase):
         task_args = self.BATCH_PREDICTION_DEFAULT_ARGS.copy()
         with self.assertRaises(AirflowException) as context:
             MLEngineBatchPredictionOperator(**task_args).execute(None)
-        self.assertEquals(
+        self.assertEqual(
             'Missing model origin: Batch prediction expects a '
             'model, a model & version combination, or a URI to a savedModel.',
             str(context.exception))
@@ -264,7 +264,7 @@ class MLEngineBatchPredictionOperatorTest(unittest.TestCase):
                         'predictionInput': input_with_model
                     }, ANY)
 
-            self.assertEquals(http_error_code, context.exception.resp.status)
+            self.assertEqual(http_error_code, context.exception.resp.status)
 
     def testFailedJobError(self):
         with patch('airflow.contrib.operators.mlengine_operator.MLEngineHook') \
@@ -280,7 +280,7 @@ class MLEngineBatchPredictionOperatorTest(unittest.TestCase):
             with self.assertRaises(RuntimeError) as context:
                 MLEngineBatchPredictionOperator(**task_args).execute(None)
 
-            self.assertEquals('A failure message', str(context.exception))
+            self.assertEqual('A failure message', str(context.exception))
 
 
 class MLEngineTrainingOperatorTest(unittest.TestCase):
@@ -320,7 +320,7 @@ class MLEngineTrainingOperatorTest(unittest.TestCase):
             mock_hook.assert_called_with(
                 gcp_conn_id='google_cloud_default', delegate_to=None)
             # Make sure only 'create_job' is invoked on hook instance
-            self.assertEquals(len(hook_instance.mock_calls), 1)
+            self.assertEqual(len(hook_instance.mock_calls), 1)
             hook_instance.create_job.assert_called_with(
                 'test-project', self.TRAINING_INPUT, ANY)
 
@@ -347,7 +347,7 @@ class MLEngineTrainingOperatorTest(unittest.TestCase):
             mock_hook.assert_called_with(gcp_conn_id='google_cloud_default',
                                          delegate_to=None)
             # Make sure only 'create_job' is invoked on hook instance
-            self.assertEquals(len(hook_instance.mock_calls), 1)
+            self.assertEqual(len(hook_instance.mock_calls), 1)
             hook_instance.create_job.assert_called_with(
                 'test-project', training_input, ANY)
 
@@ -370,10 +370,10 @@ class MLEngineTrainingOperatorTest(unittest.TestCase):
             mock_hook.assert_called_with(
                 gcp_conn_id='google_cloud_default', delegate_to=None)
             # Make sure only 'create_job' is invoked on hook instance
-            self.assertEquals(len(hook_instance.mock_calls), 1)
+            self.assertEqual(len(hook_instance.mock_calls), 1)
             hook_instance.create_job.assert_called_with(
                 'test-project', self.TRAINING_INPUT, ANY)
-            self.assertEquals(http_error_code, context.exception.resp.status)
+            self.assertEqual(http_error_code, context.exception.resp.status)
 
     def testFailedJobError(self):
         with patch('airflow.contrib.operators.mlengine_operator.MLEngineHook') \
@@ -392,10 +392,10 @@ class MLEngineTrainingOperatorTest(unittest.TestCase):
             mock_hook.assert_called_with(
                 gcp_conn_id='google_cloud_default', delegate_to=None)
             # Make sure only 'create_job' is invoked on hook instance
-            self.assertEquals(len(hook_instance.mock_calls), 1)
+            self.assertEqual(len(hook_instance.mock_calls), 1)
             hook_instance.create_job.assert_called_with(
                 'test-project', self.TRAINING_INPUT, ANY)
-            self.assertEquals('A failure message', str(context.exception))
+            self.assertEqual('A failure message', str(context.exception))
 
 
 class MLEngineVersionOperatorTest(unittest.TestCase):
@@ -425,7 +425,7 @@ class MLEngineVersionOperatorTest(unittest.TestCase):
             mock_hook.assert_called_with(gcp_conn_id='google_cloud_default',
                                          delegate_to=None)
             # Make sure only 'create_version' is invoked on hook instance
-            self.assertEquals(len(hook_instance.mock_calls), 1)
+            self.assertEqual(len(hook_instance.mock_calls), 1)
             hook_instance.create_version.assert_called_with(
                 'test-project', 'test-model', self.VERSION_INPUT)
 
