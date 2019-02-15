@@ -24,6 +24,7 @@ import logging
 import os
 import unittest
 from datetime import timedelta, date
+from unittest import mock
 
 from airflow import configuration
 from airflow.exceptions import AirflowException
@@ -44,19 +45,6 @@ TI_CONTEXT_ENV_VARS = ['AIRFLOW_CTX_DAG_ID',
                        'AIRFLOW_CTX_TASK_ID',
                        'AIRFLOW_CTX_EXECUTION_DATE',
                        'AIRFLOW_CTX_DAG_RUN_ID']
-
-
-class Call:
-    def __init__(self, *args, **kwargs):
-        self.args = args
-        self.kwargs = kwargs
-
-
-def build_recording_function(calls_collection):
-    def recording_function(*args, **kwargs):
-        calls_collection.append(Call(*args, **kwargs))
-    return recording_function
-
 
 class PythonOperatorTest(unittest.TestCase):
     @classmethod
@@ -136,9 +124,10 @@ class PythonOperatorTest(unittest.TestCase):
         """Test PythonOperator op_args are templatized"""
         recorded_calls = []
 
+        callable_mock = mock.Mock(recorded_calls)
         task = PythonOperator(
             task_id='python_operator',
-            python_callable=(build_recording_function(recorded_calls)),
+            python_callable=callable_mock,
             op_args=[
                 4,
                 date(2019, 1, 1),
@@ -154,21 +143,21 @@ class PythonOperatorTest(unittest.TestCase):
         )
         task.run(start_date=DEFAULT_DATE, end_date=DEFAULT_DATE)
 
-        self.assertEqual(1, len(recorded_calls))
-        self._assertCallsEqual(
-            recorded_calls[0],
-            Call(4,
-                 date(2019, 1, 1),
-                 "dag {} ran on {}.".format(self.dag.dag_id, DEFAULT_DATE.date().isoformat()))
+        callable_mock.assert_called_once_with(
+            4,
+            date(2019, 1, 1),
+            "dag {} ran on {}.".format(self.dag.dag_id, DEFAULT_DATE.date().isoformat())
         )
 
     def test_python_callable_keyword_arguments_are_templatized(self):
         """Test PythonOperator op_kwargs are templatized"""
         recorded_calls = []
 
+        callable_mock = mock.Mock(recorded_calls)
+
         task = PythonOperator(
             task_id='python_operator',
-            python_callable=(build_recording_function(recorded_calls)),
+            python_callable=callable_mock,
             op_kwargs={
                 'an_int': 4,
                 'a_date': date(2019, 1, 1),
@@ -184,13 +173,11 @@ class PythonOperatorTest(unittest.TestCase):
         )
         task.run(start_date=DEFAULT_DATE, end_date=DEFAULT_DATE)
 
-        self.assertEqual(1, len(recorded_calls))
-        self._assertCallsEqual(
-            recorded_calls[0],
-            Call(an_int=4,
-                 a_date=date(2019, 1, 1),
-                 a_templated_string="dag {} ran on {}.".format(
-                     self.dag.dag_id, DEFAULT_DATE.date().isoformat()))
+        callable_mock.assert_called_once_with(
+            an_int=4,
+            a_date=date(2019, 1, 1),
+            a_templated_string="dag {} ran on {}.".format(
+                 self.dag.dag_id, DEFAULT_DATE.date().isoformat())
         )
 
     def test_python_operator_shallow_copy_attr(self):
