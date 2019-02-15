@@ -122,9 +122,9 @@ class PythonOperatorTest(unittest.TestCase):
 
     def test_python_callable_arguments_are_templatized(self):
         """Test PythonOperator op_args are templatized"""
-        recorded_calls = []
 
         callable_mock = mock.Mock(recorded_calls)
+        
         task = PythonOperator(
             task_id='python_operator',
             python_callable=callable_mock,
@@ -151,8 +151,6 @@ class PythonOperatorTest(unittest.TestCase):
 
     def test_python_callable_keyword_arguments_are_templatized(self):
         """Test PythonOperator op_kwargs are templatized"""
-        recorded_calls = []
-
         callable_mock = mock.Mock(recorded_calls)
 
         task = PythonOperator(
