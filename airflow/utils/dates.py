@@ -71,7 +71,7 @@ def date_range(start_date, end_date=None, num=None, delta=None):
 
     delta_iscron = False
     tz = start_date.tzinfo
-    if isinstance(delta, six.string_types):
+    if isinstance(delta, str):
         delta_iscron = True
         start_date = timezone.make_naive(start_date, tz)
         cron = croniter(delta, start_date)
@@ -130,7 +130,7 @@ def round_time(dt, delta, start_date=timezone.make_aware(datetime.min)):
     datetime.datetime(2015, 9, 14, 0, 0)
     """
 
-    if isinstance(delta, six.string_types):
+    if isinstance(delta, str):
         # It's cron based, so it's easy
         tz = start_date.tzinfo
         start_date = timezone.make_naive(start_date, tz)

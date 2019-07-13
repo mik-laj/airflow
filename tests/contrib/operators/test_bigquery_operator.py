@@ -251,10 +251,10 @@ class BigQueryOperatorTest(unittest.TestCase):
                 cluster_fields=None,
             )
 
-        self.assertTrue(isinstance(operator.sql, six.string_types))
+        self.assertTrue(isinstance(operator.sql, str))
         ti = TaskInstance(task=operator, execution_date=DEFAULT_DATE)
         ti.render_templates()
-        self.assertTrue(isinstance(ti.task.sql, six.string_types))
+        self.assertTrue(isinstance(ti.task.sql, str))
 
     @mock.patch('airflow.contrib.operators.bigquery_operator.BigQueryHook')
     def test_bigquery_operator_extra_link(self, mock_hook):

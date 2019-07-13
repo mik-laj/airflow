@@ -231,7 +231,7 @@ class DAG(BaseDag, LoggingMixin):
         if start_date and start_date.tzinfo:
             self.timezone = start_date.tzinfo
         elif 'start_date' in self.default_args and self.default_args['start_date']:
-            if isinstance(self.default_args['start_date'], six.string_types):
+            if isinstance(self.default_args['start_date'], str):
                 self.default_args['start_date'] = (
                     timezone.parse(self.default_args['start_date'])
                 )
@@ -242,7 +242,7 @@ class DAG(BaseDag, LoggingMixin):
 
         # Apply the timezone we settled on to end_date if it wasn't supplied
         if 'end_date' in self.default_args and self.default_args['end_date']:
-            if isinstance(self.default_args['end_date'], six.string_types):
+            if isinstance(self.default_args['end_date'], str):
                 self.default_args['end_date'] = (
                     timezone.parse(self.default_args['end_date'], timezone=self.timezone)
                 )
@@ -261,13 +261,13 @@ class DAG(BaseDag, LoggingMixin):
             )
 
         self.schedule_interval = schedule_interval
-        if isinstance(schedule_interval, six.string_types) and schedule_interval in cron_presets:
+        if isinstance(schedule_interval, str) and schedule_interval in cron_presets:
             self._schedule_interval = cron_presets.get(schedule_interval)  # type: Optional[ScheduleInterval]
         elif schedule_interval == '@once':
             self._schedule_interval = None
         else:
             self._schedule_interval = schedule_interval
-        if isinstance(template_searchpath, six.string_types):
+        if isinstance(template_searchpath, str):
             template_searchpath = [template_searchpath]
         self.template_searchpath = template_searchpath
         self.template_undefined = template_undefined
@@ -374,7 +374,7 @@ class DAG(BaseDag, LoggingMixin):
         :param dttm: utc datetime
         :return: utc datetime
         """
-        if isinstance(self._schedule_interval, six.string_types):
+        if isinstance(self._schedule_interval, str):
             # we don't want to rely on the transitions created by
             # croniter as they are not always correct
             dttm = pendulum.instance(dttm)
@@ -402,7 +402,7 @@ class DAG(BaseDag, LoggingMixin):
         :param dttm: utc datetime
         :return: utc datetime
         """
-        if isinstance(self._schedule_interval, six.string_types):
+        if isinstance(self._schedule_interval, str):
             # we don't want to rely on the transitions created by
             # croniter as they are not always correct
             dttm = pendulum.instance(dttm)

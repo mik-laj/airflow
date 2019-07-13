@@ -81,12 +81,12 @@ class DayOfWeekSensor(BaseSensorOperator):
         super().__init__(*args, **kwargs)
         self.week_day = week_day
         self.use_task_execution_day = use_task_execution_day
-        if isinstance(self.week_day, six.string_types):
+        if isinstance(self.week_day, str):
             self._week_day_num = {WeekDay.get_weekday_number(week_day_str=self.week_day)}
         elif isinstance(self.week_day, WeekDay):
             self._week_day_num = {self.week_day}
         elif isinstance(self.week_day, set):
-            if all(isinstance(day, six.string_types) for day in self.week_day):
+            if all(isinstance(day, str) for day in self.week_day):
                 self._week_day_num = {WeekDay.get_weekday_number(day) for day in week_day}
             elif all(isinstance(day, WeekDay) for day in self.week_day):
                 self._week_day_num = self.week_day

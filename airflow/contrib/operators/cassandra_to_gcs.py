@@ -215,9 +215,9 @@ class CassandraToGoogleCloudStorageOperator(BaseOperator):
     def convert_value(cls, name, value):
         if not value:
             return value
-        elif isinstance(value, (text_type, int, float, bool, dict)):
+        elif isinstance(value, (str, int, float, bool, dict)):
             return value
-        elif isinstance(value, binary_type):
+        elif isinstance(value, bytes):
             return b64encode(value).decode('ascii')
         elif isinstance(value, UUID):
             return b64encode(value.bytes).decode('ascii')

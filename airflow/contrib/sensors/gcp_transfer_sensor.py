@@ -64,7 +64,7 @@ class GCPTransferServiceWaitForJobStatusSensor(BaseSensorOperator):
         super().__init__(*args, **kwargs)
         self.job_name = job_name
         self.expected_statuses = (
-            {expected_statuses} if isinstance(expected_statuses, six.string_types) else expected_statuses
+            {expected_statuses} if isinstance(expected_statuses, str) else expected_statuses
         )
         self.project_id = project_id
         self.gcp_cloud_conn_id = gcp_conn_id

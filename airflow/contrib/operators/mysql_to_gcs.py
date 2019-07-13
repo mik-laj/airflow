@@ -249,7 +249,7 @@ class MySqlToGoogleCloudStorageOperator(BaseOperator):
         schema_str = None
         schema_file_mime_type = 'application/json'
         tmp_schema_file_handle = NamedTemporaryFile(delete=True)
-        if self.schema is not None and isinstance(self.schema, string_types):
+        if self.schema is not None and isinstance(self.schema, str):
             schema_str = self.schema.encode('utf-8')
         elif self.schema is not None and isinstance(self.schema, list):
             schema_str = json.dumps(self.schema).encode('utf-8')
@@ -331,7 +331,7 @@ class MySqlToGoogleCloudStorageOperator(BaseOperator):
         Return a dict of column name and column type based on self.schema if not None.
         """
         schema = []
-        if isinstance(self.schema, string_types):
+        if isinstance(self.schema, str):
             schema = json.loads(self.schema)
         elif isinstance(self.schema, list):
             schema = self.schema

@@ -248,7 +248,7 @@ class DagBag(BaseDagBag, LoggingMixin):
                     try:
                         dag.is_subdag = False
                         self.bag_dag(dag, parent_dag=dag, root_dag=dag)
-                        if isinstance(dag._schedule_interval, six.string_types):
+                        if isinstance(dag._schedule_interval, str):
                             croniter(dag._schedule_interval)
                         found_dags.append(dag)
                         found_dags += dag.subdags

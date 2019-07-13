@@ -205,7 +205,7 @@ class CloudSpannerInstanceDatabaseQueryOperator(BaseOperator):
 
     def execute(self, context):
         queries = self.query
-        if isinstance(self.query, six.string_types):
+        if isinstance(self.query, str):
             queries = [x.strip() for x in self.query.split(';')]
             self.sanitize_queries(queries)
         self.log.info("Executing DML query(-ies) on "

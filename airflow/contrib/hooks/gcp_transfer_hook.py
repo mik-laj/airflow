@@ -412,7 +412,7 @@ class GCPTransferServiceHook(GoogleCloudBaseHook):
         :rtype: bool
         """
         expected_statuses = (
-            {expected_statuses} if isinstance(expected_statuses, six.string_types) else set(expected_statuses)
+            {expected_statuses} if isinstance(expected_statuses, str) else set(expected_statuses)
         )
         if not operations:
             return False

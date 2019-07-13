@@ -123,7 +123,7 @@ class RedirectStdHandler(StreamHandler):
     sys.stderr/stdout at handler construction time.
     """
     def __init__(self, stream):
-        if not isinstance(stream, six.string_types):
+        if not isinstance(stream, str):
             raise Exception("Cannot use file like objects. Use 'stdout' or 'stderr'"
                             " as a str and without 'ext://'.")
 
