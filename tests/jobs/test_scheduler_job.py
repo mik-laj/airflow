@@ -2087,7 +2087,7 @@ class SchedulerJobTest(unittest.TestCase):
             except AirflowException:
                 pass
 
-        ti_tuple = six.next(six.itervalues(executor.queued_tasks))
+        ti_tuple = next(executor.queued_tasks.values())
         (command, priority, queue, simple_ti) = ti_tuple
         ti = simple_ti.construct_task_instance()
         ti.task = dag_task1
