@@ -36,7 +36,7 @@ def stab(tab=1):
     return ' ' * 4 * tab
 
 
-class NVD3Chart(object):
+class NVD3Chart:
     """
     NVD3Chart Base class.
     """
@@ -465,7 +465,7 @@ class NVD3Chart(object):
         self.axislist[name] = axis
 
 
-class TemplateMixin(object):
+class TemplateMixin:
     """
     A mixin that override buildcontent. Instead of building the complex
     content template we exploit Jinja2 inheritance. Thus each chart class

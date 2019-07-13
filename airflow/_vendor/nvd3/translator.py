@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 
-class Tag(object):
+class Tag:
     """Tag class"""
 
     def __init__(self, content=None):
@@ -22,7 +22,7 @@ class ScriptTag(Tag):
     attrs = (('type', 'text/javascript'),)
 
 
-class AnonymousFunction(object):
+class AnonymousFunction:
     def __init__(self, arguments, content):
         self.arguments = arguments
         self.content = content
@@ -31,7 +31,7 @@ class AnonymousFunction(object):
         return 'function(%s) { %s }' % (self.arguments, self.content)
 
 
-class Function(object):
+class Function:
 
     def __init__(self, name):
         self.name = name
@@ -55,7 +55,7 @@ class Function(object):
         return self
 
 
-class Assignment(object):
+class Assignment:
 
     def __init__(self, key, value, scoped=True):
         self.key = key
