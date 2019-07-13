@@ -107,8 +107,7 @@ class TestFileTaskLogHandler(unittest.TestCase):
 
         # We should expect our log line from the callable above to appear in
         # the logs we read back
-        six.assertRegex(
-            self,
+        self.assertRegex(
             logs[0],
             target_re,
             "Logs were " + str(logs)

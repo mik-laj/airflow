@@ -116,7 +116,7 @@ class TestCloudBuildHookWithPassedProjectId(unittest.TestCase):
 
         execute_mock = mock.Mock(**{"side_effect": [TEST_WAITING_OPERATION, TEST_ERROR_OPERATION]})
         service_mock.operations.return_value.get.return_value.execute = execute_mock
-        with six.assertRaisesRegex(self, AirflowException, "error"):
+        with self.assertRaisesRegex(AirflowException, "error"):
             self.hook.create_build(body={})
 
 
@@ -185,7 +185,7 @@ class TestGcpComputeHookWithDefaultProjectIdFromConnection(unittest.TestCase):
 
         execute_mock = mock.Mock(**{"side_effect": [TEST_WAITING_OPERATION, TEST_ERROR_OPERATION]})
         service_mock.operations.return_value.get.return_value.execute = execute_mock
-        with six.assertRaisesRegex(self, AirflowException, "error"):
+        with self.assertRaisesRegex(AirflowException, "error"):
             self.hook.create_build(body={})
 
 
