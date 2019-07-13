@@ -167,7 +167,7 @@ class OracleHook(DbApiHook):
                     lst.append(str(cell))
             values = tuple(lst)
             sql = 'INSERT /*+ APPEND */ ' \
-                  'INTO {0} {1} VALUES ({2})'.format(table,
+                  'INTO {} {} VALUES ({})'.format(table,
                                                      target_fields,
                                                      ','.join(values))
             cur.execute(sql)
