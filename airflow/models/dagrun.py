@@ -383,7 +383,7 @@ class DagRun(Base, LoggingMixin):
                 ti.state = State.NONE
 
         # check for missing tasks
-        for task in six.itervalues(dag.task_dict):
+        for task in dag.task_dict.values():
             if task.start_date > self.execution_date and not self.is_backfill:
                 continue
 

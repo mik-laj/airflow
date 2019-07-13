@@ -525,7 +525,7 @@ class SchedulerJob(BaseJob):
             ).delete()
 
         # Add the errors of the processed files
-        for filename, stacktrace in six.iteritems(dagbag.import_errors):
+        for filename, stacktrace in dagbag.import_errors.items():
             session.add(errors.ImportError(
                 filename=filename,
                 stacktrace=stacktrace))
