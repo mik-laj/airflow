@@ -34,7 +34,7 @@ from kubernetes.client.rest import ApiException
 from airflow import settings
 from airflow.configuration import conf
 from airflow.exceptions import AirflowConfigException, AirflowException
-from airflow.executors.base_executor import NOT_STARTED_MESSAGE, BaseExecutor, CommandType
+from airflow.executors.base_executor import NOT_STARTED_MESSAGE, BaseExecutor, QueueTaskRun
 from airflow.kubernetes.kube_client import get_kube_client
 from airflow.kubernetes.pod_generator import PodGenerator
 from airflow.kubernetes.pod_launcher import PodLauncher
@@ -49,7 +49,7 @@ MAX_POD_ID_LEN = 253
 MAX_LABEL_LEN = 63
 
 # TaskInstance key, command, configuration
-KubernetesJobType = Tuple[TaskInstanceKeyType, CommandType, Any]
+KubernetesJobType = Tuple[TaskInstanceKeyType, QueueTaskRun, Any]
 
 # key, state, pod_id, resource_version
 KubernetesResultsType = Tuple[TaskInstanceKeyType, Optional[str], str, str]
@@ -767,7 +767,7 @@ class KubernetesExecutor(BaseExecutor, LoggingMixin):
 
     def execute_async(self,
                       key: TaskInstanceKeyType,
-                      command: CommandType,
+                      command: QueueTaskRun,
                       queue: Optional[str] = None,
                       executor_config: Optional[Any] = None) -> None:
         """Executes task asynchronously"""
@@ -779,7 +779,7 @@ class KubernetesExecutor(BaseExecutor, LoggingMixin):
         kube_executor_config = PodGenerator.from_obj(executor_config)
         if not self.task_queue:
             raise AirflowException(NOT_STARTED_MESSAGE)
-        self.task_queue.put((key, command, kube_executor_config))
+        self.task_queue.put((key, command.as_command(), kube_executor_config))
 
     def sync(self) -> None:
         """Synchronize task state."""
