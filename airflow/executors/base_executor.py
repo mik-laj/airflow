@@ -59,11 +59,11 @@ class BaseExecutor(LoggingMixin):
         Executors may need to get things started.
         """
 
-    def queue_command(self,
-                      simple_task_instance: SimpleTaskInstance,
-                      command: QueueTaskRun,
-                      priority: int = 1,
-                      queue: Optional[str] = None):
+    def _queue_command(self,
+                       simple_task_instance: SimpleTaskInstance,
+                       command: QueueTaskRun,
+                       priority: int = 1,
+                       queue: Optional[str] = None):
         """Queues command to task"""
         if simple_task_instance.key not in self.queued_tasks and simple_task_instance.key not in self.running:
             self.log.info("Adding to queue: %s", command)
@@ -99,7 +99,7 @@ class BaseExecutor(LoggingMixin):
             pool=pool,
             pickle_id=pickle_id,
             cfg_path=cfg_path)
-        self.queue_command(
+        self._queue_command(
             SimpleTaskInstance(task_instance),
             queue_task_run,
             priority=task_instance.task.priority_weight_total,
