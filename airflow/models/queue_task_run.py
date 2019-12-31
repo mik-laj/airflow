@@ -18,7 +18,7 @@
 from airflow.utils import timezone
 
 
-class QueueTaskRun:  # pylint: disable=too-many-instance-attributes
+class RawTaskDeferredRun:  # pylint: disable=too-many-instance-attributes
     """
     Generates the shell command required to execute this task instance.
 

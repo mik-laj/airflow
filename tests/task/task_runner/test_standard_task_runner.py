@@ -75,7 +75,7 @@ class TestStandardTaskRunner(unittest.TestCase):
         local_task_job = mock.Mock()
         local_task_job.task_instance = mock.MagicMock()
         local_task_job.task_instance.run_as_user = None
-        local_task_job.task_instance.get_queue_task_run.return_value.command_as_list.return_value = [
+        local_task_job.task_instance.get_raw_task_deferred_run.return_value.command_as_list.return_value = [
             'airflow', 'tasks', 'test', 'test_on_kill', 'task1', '2016-01-01'
         ]
 
@@ -100,7 +100,7 @@ class TestStandardTaskRunner(unittest.TestCase):
         local_task_job = mock.Mock()
         local_task_job.task_instance = mock.MagicMock()
         local_task_job.task_instance.run_as_user = getpass.getuser()
-        local_task_job.task_instance.get_queue_task_run.return_value.command_as_list.return_value = [
+        local_task_job.task_instance.get_raw_task_deferred_run.reutnr_value.command_as_list.return_value = [
             'airflow', 'tasks', 'test', 'test_on_kill', 'task1', '2016-01-01'
         ]
 
