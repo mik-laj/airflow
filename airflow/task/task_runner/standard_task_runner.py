@@ -35,6 +35,7 @@ class StandardTaskRunner(BaseTaskRunner):
     """
     def __init__(self, local_task_job):
         super().__init__(local_task_job)
+        self.local_task_job = self.local_task_job
         self._rc = None
 
     def start(self):
@@ -53,7 +54,6 @@ class StandardTaskRunner(BaseTaskRunner):
             self.log.info("Started process %d to run task", pid)
             return psutil.Process(pid)
         else:
-            from airflow.bin.cli import get_parser
             import signal
             import airflow.settings as settings
 
@@ -68,17 +68,19 @@ class StandardTaskRunner(BaseTaskRunner):
             settings.engine.pool.dispose()
             settings.engine.dispose()
 
-            parser = get_parser()
-            # [1:] - remove "airflow" from the start of the command
-            args = parser.parse_args(self._command[1:])
-
-            proc_title = "airflow task runner: {0.dag_id} {0.task_id} {0.execution_date}"
-            if hasattr(args, "job_id"):
-                proc_title += " {0.job_id}"
-            setproctitle(proc_title.format(args))
+            ti = self.local_task_job.task_instance
+            setproctitle("airflow task runner: {ti.dag_id} {ti.task_id} {ti.execution_date} {job_id}".format(
+                ti=ti,
+                job_id=self.local_task_job.job_id
+            ))
 
             try:
-                args.func(args)
+                ti.init_run_context(raw=True)
+                ti._run_raw_task(  # pylint: disable=protected-access
+                    mark_success=self.local_task_job.mark_success,
+                    job_id=self.local_task_job.job_id,
+                    pool=self.local_task_job.pool,
+                )
                 os._exit(0)
             except Exception:
                 os._exit(1)
