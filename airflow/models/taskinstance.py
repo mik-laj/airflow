@@ -296,7 +296,7 @@ class TaskInstance(Base, LoggingMixin):
         raw=False,
         job_id=None,
         pool=None,
-        cfg_path=None
+        cfg_path=None,
     ):
         dag = self.task.dag
         should_pass_filepath = not pickle_id and dag

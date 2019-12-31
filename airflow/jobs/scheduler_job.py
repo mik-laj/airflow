@@ -1293,19 +1293,15 @@ class SchedulerJob(BaseJob):
         # actually enqueue them
         for simple_task_instance in simple_task_instances:
             simple_dag = simple_dag_bag.get_dag(simple_task_instance.dag_id)
-            queue_tsak_run = QueueTaskRun(
+            queue_taskk_run = QueueTaskRun(
                 dag_id=simple_task_instance.dag_id,
                 task_id=simple_task_instance.task_id,
                 execution_date=simple_task_instance.execution_date,
                 local=True,
-                mark_success=False,
-                ignore_all_dependencies=False,
-                ignore_depends_on_past=False,
-                ignore_dependencies=False,
-                force=False,
                 pool=simple_task_instance.pool,
                 subdir=simple_dag.full_filepath,
-                pickle_id=simple_dag.pickle_id)
+                pickle_id=simple_dag.pickle_id
+            )
 
             priority = simple_task_instance.priority_weight
             queue = simple_task_instance.queue
@@ -1316,9 +1312,10 @@ class SchedulerJob(BaseJob):
 
             self.executor.queue_command(
                 simple_task_instance,
-                queue_tsak_run,
+                queue_taskk_run,
                 priority=priority,
-                queue=queue)
+                queue=queue
+            )
 
     @provide_session
     def _execute_task_instances(self,
