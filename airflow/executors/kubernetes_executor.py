@@ -22,7 +22,7 @@ import json
 import multiprocessing
 import re
 from queue import Empty, Queue  # pylint: disable=unused-import
-from typing import Any, Dict, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional, Tuple, Union
 from uuid import uuid4
 
 import kubernetes
@@ -49,7 +49,7 @@ MAX_POD_ID_LEN = 253
 MAX_LABEL_LEN = 63
 
 # TaskInstance key, command, configuration
-KubernetesJobType = Tuple[TaskInstanceKeyType, LocalTaskJobDeferredRun, Any]
+KubernetesJobType = Tuple[TaskInstanceKeyType, List[str], Any]
 
 # key, state, pod_id, resource_version
 KubernetesResultsType = Tuple[TaskInstanceKeyType, Optional[str], str, str]
