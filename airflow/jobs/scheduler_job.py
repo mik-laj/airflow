@@ -40,7 +40,6 @@ from airflow.executors.local_executor import LocalExecutor
 from airflow.executors.sequential_executor import SequentialExecutor
 from airflow.jobs.base_job import BaseJob
 from airflow.models import DAG, DagRun, SlaMiss, errors
-from airflow.models.taskinstance import SimpleTaskInstance
 from airflow.stats import Stats
 from airflow.ti_deps.dep_context import SCHEDULED_DEPS, DepContext
 from airflow.ti_deps.deps.pool_slots_available_dep import STATES_TO_COUNT_AS_RUNNING
@@ -1230,13 +1229,13 @@ class SchedulerJob(BaseJob):
                                                     acceptable_states, session=None):
         """
         Changes the state of task instances in the list with one of the given states
-        to QUEUED atomically, and returns the TIs changed in SimpleTaskInstance format.
+        to QUEUED atomically, and returns the TIs changed in TaskInstance format.
 
         :param task_instances: TaskInstances to change the state of
         :type task_instances: list[airflow.models.TaskInstance]
         :param acceptable_states: Filters the TaskInstances updated to be in these states
         :type acceptable_states: Iterable[State]
-        :rtype: list[airflow.models.taskinstance.SimpleTaskInstance]
+        :rtype: list[airflow.models.taskinstanceTaskInstance]
         """
         if len(task_instances) == 0:
             session.commit()
@@ -1284,56 +1283,37 @@ class SchedulerJob(BaseJob):
         )
         session.commit()
 
-        # Generate a list of SimpleTaskInstance for the use of queuing
-        # them in the executor.
-        simple_task_instances = [SimpleTaskInstance(ti) for ti in tis_to_set_to_queued]
-
         task_instance_str = "\n\t".join([repr(x) for x in tis_to_set_to_queued])
         self.log.info("Setting the following %s tasks to queued state:\n\t%s",
                       len(tis_to_set_to_queued), task_instance_str)
-        return simple_task_instances
+        return tis_to_set_to_queued
 
     def _enqueue_task_instances_with_queued_state(self, simple_dag_bag,
-                                                  simple_task_instances):
+                                                  task_instances):
         """
         Takes task_instances, which should have been set to queued, and enqueues them
         with the executor.
 
-        :param simple_task_instances: TaskInstances to enqueue
-        :type simple_task_instances: list[SimpleTaskInstance]
+        :param task_instances: TaskInstances to enqueue
+        :type task_instances: list[TaskInstance]
         :param simple_dag_bag: Should contains all of the task_instances' dags
         :type simple_dag_bag: airflow.utils.dag_processing.SimpleDagBag
         """
-        TI = models.TaskInstance
         # actually enqueue them
-        for simple_task_instance in simple_task_instances:
-            simple_dag = simple_dag_bag.get_dag(simple_task_instance.dag_id)
-            command = TI.generate_command(
-                simple_task_instance.dag_id,
-                simple_task_instance.task_id,
-                simple_task_instance.execution_date,
-                local=True,
+        for task_instance in task_instances:
+            simple_dag = simple_dag_bag.get_dag(task_instance.dag_id)
+
+            self.log.info("Sending %s to executor", task_instance.key)
+            self.executor.queue_task_instance(
+                task_instance=task_instance,
                 mark_success=False,
+                pickle_id=simple_dag.pickle_id,
                 ignore_all_deps=False,
                 ignore_depends_on_past=False,
                 ignore_task_deps=False,
                 ignore_ti_state=False,
-                pool=simple_task_instance.pool,
-                file_path=simple_dag.full_filepath,
-                pickle_id=simple_dag.pickle_id)
-
-            priority = simple_task_instance.priority_weight
-            queue = simple_task_instance.queue
-            self.log.info(
-                "Sending %s to executor with priority %s and queue %s",
-                simple_task_instance.key, priority, queue
+                pool=task_instance.pool
             )
-
-            self.executor.queue_command(
-                simple_task_instance,
-                command,
-                priority=priority,
-                queue=queue)
 
     @provide_session
     def _execute_task_instances(self,
@@ -1360,15 +1340,14 @@ class SchedulerJob(BaseJob):
                                                               session=session)
 
         def query(result, items):
-            simple_tis_with_state_changed = \
-                self._change_state_for_executable_task_instances(items,
-                                                                 states,
-                                                                 session=session)
-            self._enqueue_task_instances_with_queued_state(
-                simple_dag_bag,
-                simple_tis_with_state_changed)
+            tis_to_set_to_queued = self._change_state_for_executable_task_instances(
+                task_instances=items,
+                acceptable_states=states,
+                session=session
+            )
+            self._enqueue_task_instances_with_queued_state(simple_dag_bag, tis_to_set_to_queued)
             session.commit()
-            return result + len(simple_tis_with_state_changed)
+            return result + len(tis_to_set_to_queued)
 
         return helpers.reduce_in_chunks(query, executable_tis, 0, self.max_tis_per_query)
 
