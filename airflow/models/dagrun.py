@@ -411,7 +411,7 @@ class DagRun(Base, LoggingMixin):
             Stats.timing('dagrun.duration.failed.{}'.format(self.dag_id), duration)
 
     @provide_session
-    def verify_integrity(self, session=None):
+    def verify_integrity(self, task_instances=None, session=None):
         """
         Verifies the DagRun by checking for removed tasks or tasks that are not in the
         database yet. It will set state to removed or add the task if required.
@@ -419,7 +419,7 @@ class DagRun(Base, LoggingMixin):
         from airflow.models.taskinstance import TaskInstance  # Avoid circular import
 
         dag = self.get_dag()
-        tis = self.get_task_instances(session=session)
+        tis = self.get_task_instances(session=session) if task_instances is None else task_instances
 
         # check for removed or restored tasks
         task_ids = []

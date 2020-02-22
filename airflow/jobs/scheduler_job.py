@@ -499,19 +499,26 @@ class DagFileProcessor(LoggingMixin):
         session.commit()
 
     @provide_session
-    def create_dag_run(self, dag, session=None):
+    def create_dag_run(self, dag, dag_runs=None, session=None):
         """
         This method checks whether a new DagRun needs to be created
         for a DAG based on scheduling interval.
         Returns DagRun if one is scheduled. Otherwise returns None.
         """
         if dag.schedule_interval and conf.getboolean('scheduler', 'USE_JOB_SCHEDULE'):
-            active_runs = DagRun.find(
-                dag_id=dag.dag_id,
-                state=State.RUNNING,
-                external_trigger=False,
-                session=session
-            )
+            if dag_runs is None:
+                active_runs = DagRun.find(
+                    dag_id=dag.dag_id,
+                    state=State.RUNNING,
+                    external_trigger=False,
+                    session=session
+                )
+            else:
+                active_runs = [
+                    dag_run
+                    for dag_run in dag_runs
+                    if not dag_run.external_trigger
+                ]
             # return if already reached maximum active runs and no timeout setting
             if len(active_runs) >= dag.max_active_runs and not dag.dagrun_timeout:
                 return
@@ -530,18 +537,21 @@ class DagFileProcessor(LoggingMixin):
             if len(active_runs) - timedout_runs >= dag.max_active_runs:
                 return
 
+            active_runs_ordered_by_execution_date = sorted([
+                dag_run for dag_run in active_runs
+            ], key=lambda d: d.execution_date)
+
             # this query should be replaced by find dagrun
-            qry = (
-                session.query(func.max(DagRun.execution_date))
-                    .filter_by(dag_id=dag.dag_id)
-                    .filter(or_(
-                        DagRun.external_trigger == False,  # noqa: E712 pylint: disable=singleton-comparison
-                        # add % as a wildcard for the like query
-                        DagRun.run_id.like(DagRun.ID_PREFIX + '%')
-                    )
-                )
-            )
-            last_scheduled_run = qry.scalar()
+            scheduled_dag_runs_ordered_by_execution_date = [
+                dag_run
+                for dag_run in active_runs
+                if dag_run.run_id.startswith(DagRun.ID_PREFIX)
+            ]
+
+            if scheduled_dag_runs_ordered_by_execution_date:
+                last_scheduled_run = scheduled_dag_runs_ordered_by_execution_date[-1].execution_date
+            else:
+                last_scheduled_run = None
 
             # don't schedule @once again
             if dag.schedule_interval == '@once' and last_scheduled_run:
@@ -580,7 +590,9 @@ class DagFileProcessor(LoggingMixin):
                 next_run_date = dag.following_schedule(last_scheduled_run)
 
             # make sure backfills are also considered
-            last_run = dag.get_last_dagrun(session=session)
+            last_run = active_runs_ordered_by_execution_date[-1] \
+                if active_runs_ordered_by_execution_date else None
+
             if last_run and next_run_date:
                 while next_run_date <= last_run.execution_date:
                     next_run_date = dag.following_schedule(next_run_date)
@@ -734,7 +746,7 @@ class DagFileProcessor(LoggingMixin):
             # Only creates DagRun for DAGs that are not subdag since
             # DagRun of subdags are created when SubDagOperator executes.
             if not dag.is_subdag:
-                dag_run = self.create_dag_run(dag)
+                dag_run = self.create_dag_run(dag, dag_runs)
                 if dag_run:
                     dag_runs_for_dag.append(dag_run)
                     expected_start_date = dag.following_schedule(dag_run.execution_date)
