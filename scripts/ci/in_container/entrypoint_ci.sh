@@ -233,6 +233,7 @@ if [[ -n ${RUNTIME} ]]; then
     fi
 fi
 
+export PYTHONDEVMODE=1
 
 ARGS=("${CI_ARGS[@]}" "${TESTS_TO_RUN}")
 
