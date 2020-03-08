@@ -136,10 +136,6 @@ fi
 
 
 if [[ "${RUNTIME}" == "" ]]; then
-    # Start MiniCluster
-    java -cp "/opt/minicluster-1.1-SNAPSHOT/*" com.ing.minicluster.MiniCluster \
-        >"${AIRFLOW_HOME}/logs/minicluster.log" 2>&1 &
-
     # Set up ssh keys
     echo 'yes' | ssh-keygen -t rsa -C your_email@youremail.com -m PEM -P '' -f ~/.ssh/id_rsa \
         >"${AIRFLOW_HOME}/logs/ssh-keygen.log" 2>&1

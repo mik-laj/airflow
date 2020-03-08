@@ -199,6 +199,7 @@ check_integration redis "nc -zvv redis 6379" 20
 check_integration rabbitmq "nc -zvv rabbitmq 5672" 20
 check_integration cassandra "nc -zvv cassandra 9042" 20
 check_integration openldap "nc -zvv openldap 389" 20
+check_integration hadoop "nc -zvv hadoop 9083" 20
 
 if [[ ${EXIT_CODE} != 0 ]]; then
     echo

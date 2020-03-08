@@ -77,7 +77,7 @@ jobs:
       env: >-
         BACKEND=postgres
         PYTHON_VERSION=3.6
-        ENABLED_INTEGRATIONS="cassandra kerberos mongo openldap rabbitmq redis"
+        ENABLED_INTEGRATIONS="cassandra kerberos mongo openldap rabbitmq redis hadoop"
         RUN_INTEGRATION_TESTS=all
       stage: test
     - name: "Tests [Postgres][3.6][providers]"
@@ -96,7 +96,7 @@ jobs:
       env: >-
         BACKEND=sqlite
         PYTHON_VERSION=3.7
-        ENABLED_INTEGRATIONS="cassandra kerberos mongo openldap rabbitmq redis"
+        ENABLED_INTEGRATIONS="cassandra kerberos mongo openldap rabbitmq redis hadoop"
         RUN_INTEGRATION_TESTS=all
       stage: test
     - name: "Tests [Sqlite][3.6]"
@@ -108,7 +108,7 @@ jobs:
       env: >-
         BACKEND=mysql
         PYTHON_VERSION=3.6
-        ENABLED_INTEGRATIONS="cassandra kerberos mongo openldap rabbitmq redis"
+        ENABLED_INTEGRATIONS="cassandra kerberos mongo openldap rabbitmq redis hadoop"
         RUN_INTEGRATION_TESTS=all
       stage: test
     - name: "Tests [MySQL][3.7][providers][kerberos]"
