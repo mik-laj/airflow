@@ -180,7 +180,9 @@ class AirflowDocsBuilder:
 
 def get_available_packages():
     provider_package_names = [provider['package-name'] for provider in ALL_PROVIDER_YAMLS]
-    provider_package_names = [p for p in provider_package_names if os.path.exists(f"{p}/index.rst")]
+    provider_package_names = [
+        p for p in provider_package_names if os.path.exists(f"{DOCS_DIR}/{p}/index.rst")
+    ]
     return ["apache-airflow", *provider_package_names]
 
 
@@ -270,6 +272,7 @@ def print_build_errors_and_exit(
 def main():
     args = _get_parser().parse_args()
     available_packages = get_available_packages()
+    print("Available packages: ", available_packages)
 
     docs_only = args.docs_only
     spellcheck_only = args.spellcheck_only
@@ -281,7 +284,7 @@ def main():
         fnmatch.filter(available_packages, package_filter) if package_filter else available_packages
     )
 
-    print(f"Documentation will be built for {len(current_packages)} packages: {current_packages}")
+    print(f"Documentation will be built for {len(current_packages)} package(s): {current_packages}")
 
     all_build_errors: Dict[Optional[str], List[DocBuildError]] = {}
     all_spelling_errors: Dict[Optional[str], List[SpellingError]] = {}

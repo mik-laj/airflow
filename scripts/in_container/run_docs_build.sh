@@ -18,9 +18,10 @@
 # shellcheck source=scripts/in_container/_in_container_script_init.sh
 . "$( dirname "${BASH_SOURCE[0]}" )/_in_container_script_init.sh"
 
+sudo -E "${AIRFLOW_SOURCES}/docs/build_docs.py" "--help"
 sudo -E "${AIRFLOW_SOURCES}/docs/build_docs.py" "${@}"
 
 if [[ ${CI:="false"} == "true" && -d "${AIRFLOW_SOURCES}/docs/_build/docs/" ]]; then
     rm -rf "/files/documentation"
-    cp -r "${AIRFLOW_SOURCES}/docs/_build/html" "/files/documentation"
+    cp -r "${AIRFLOW_SOURCES}/docs/_build" "/files/documentation"
 fi
