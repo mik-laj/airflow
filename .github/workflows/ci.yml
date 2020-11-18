@@ -330,7 +330,7 @@ jobs:
       - name: "Upload documentation to AWS S3"
         if: >
           github.ref == 'refs/heads/master' && github.repository == 'mik-laj/airflow' &&
-          github.event_name != 'push'
+          github.event_name == 'push'
         run: aws s3 sync ./files/documentation s3://apache-airflow-docs
 
   docs-spell-check:
