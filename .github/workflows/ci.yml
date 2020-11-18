@@ -90,13 +90,13 @@ jobs:
       mysqlExclude: ${{ steps.selective-checks.outputs.mysql-exclude }}
       sqliteExclude: ${{ steps.selective-checks.outputs.sqlite-exclude }}
       kubernetesExclude: ${{ steps.selective-checks.outputs.kubernetes-exclude }}
-      run-tests: ${{ steps.selective-checks.outputs.run-tests }}
-      run-kubernetes-tests: ${{ steps.selective-checks.outputs.run-kubernetes-tests }}
+      run-tests: false
+      run-kubernetes-tests: false
       basic-checks-only: ${{ steps.selective-checks.outputs.basic-checks-only }}
       image-build: ${{ steps.selective-checks.outputs.image-build }}
       docs-build: ${{ steps.selective-checks.outputs.docs-build }}
-      needs-helm-tests: ${{ steps.selective-checks.outputs.needs-helm-tests }}
-      needs-api-tests: ${{ steps.selective-checks.outputs.needs-api-tests }}
+      needs-helm-tests: false
+      needs-api-tests: false
       needs-api-codegen: ${{ steps.selective-checks.outputs.needs-api-codegen }}
       pullRequestNumber: ${{ steps.source-run-info.outputs.pullRequestNumber }}
       pullRequestLabels: ${{ steps.source-run-info.outputs.pullRequestLabels }}
@@ -321,7 +321,7 @@ jobs:
       - name: Configure AWS credentials from Test account
         uses: aws-actions/configure-aws-credentials@v1
         if: >
-          github.ref == 'refs/heads/master' && github.repository == 'apache/airflow' &&
+          github.ref == 'refs/heads/master' && github.repository == 'mik-laj/airflow' &&
           github.event_name != 'push'
         with:
           aws-access-key-id: ${{ secrets.DOCS_AWS_ACCESS_KEY_ID }}

@@ -19,7 +19,7 @@
 . "$( dirname "${BASH_SOURCE[0]}" )/_in_container_script_init.sh"
 
 sudo -E "${AIRFLOW_SOURCES}/docs/build_docs.py" "--help"
-sudo -E "${AIRFLOW_SOURCES}/docs/build_docs.py" "${@}"
+sudo -E "${AIRFLOW_SOURCES}/docs/build_docs.py" --package apache-airflow "${@}"
 
 if [[ ${CI:="false"} == "true" && -d "${AIRFLOW_SOURCES}/docs/_build/docs/" ]]; then
     rm -rf "/files/documentation"
