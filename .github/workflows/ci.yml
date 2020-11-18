@@ -90,13 +90,13 @@ jobs:
       mysqlExclude: ${{ steps.selective-checks.outputs.mysql-exclude }}
       sqliteExclude: ${{ steps.selective-checks.outputs.sqlite-exclude }}
       kubernetesExclude: ${{ steps.selective-checks.outputs.kubernetes-exclude }}
-      run-tests: false
-      run-kubernetes-tests: false
+      run-tests: ${{ steps.selective-checks.outputs.run-tests }}
+      run-kubernetes-tests: ${{ steps.selective-checks.outputs.run-kubernetes-tests }}
       basic-checks-only: ${{ steps.selective-checks.outputs.basic-checks-only }}
       image-build: ${{ steps.selective-checks.outputs.image-build }}
       docs-build: ${{ steps.selective-checks.outputs.docs-build }}
-      needs-helm-tests: false
-      needs-api-tests: false
+      needs-helm-tests: ${{ steps.selective-checks.outputs.needs-helm-tests }}
+      needs-api-tests: ${{ steps.selective-checks.outputs.needs-api-tests }}
       needs-api-codegen: ${{ steps.selective-checks.outputs.needs-api-codegen }}
       pullRequestNumber: ${{ steps.source-run-info.outputs.pullRequestNumber }}
       pullRequestLabels: ${{ steps.source-run-info.outputs.pullRequestLabels }}
