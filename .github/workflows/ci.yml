@@ -327,7 +327,7 @@ jobs:
           aws-access-key-id: ${{ secrets.DOCS_AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.DOCS_AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-central-1
-      - name: "Upload documentation to S3"
+      - name: "Upload documentation to AWS S3"
         if: >
           github.ref == 'refs/heads/docs-v2' && github.repository == 'mik-laj/airflow' &&
           github.event_name != 'push'
