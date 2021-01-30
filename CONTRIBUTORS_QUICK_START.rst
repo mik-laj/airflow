@@ -42,18 +42,18 @@ Docker Community Edition
 
 .. code-block:: bash
 
-  $ sudo apt-get update
+  sudo apt-get update
 
-  $ sudo apt-get install \
+  sudo apt-get install \
       apt-transport-https \
       ca-certificates \
       curl \
       gnupg-agent \
       software-properties-common
 
-  $ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 
-  $ sudo add-apt-repository \
+  sudo add-apt-repository \
      "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
      $(lsb_release -cs) \
      stable"
@@ -62,15 +62,15 @@ Docker Community Edition
 
 .. code-block:: bash
 
-  $ sudo apt-get update
-  $ sudo apt-get install docker-ce docker-ce-cli containerd.io
+  sudo apt-get update
+  sudo apt-get install docker-ce docker-ce-cli containerd.io
 
 3. Creating group for docker and adding current user to it.
 
 .. code-block:: bash
 
-  $ sudo groupadd docker
-  $ sudo usermod -aG docker $USER
+  sudo groupadd docker
+  sudo usermod -aG docker $USER
 
 Note : After adding user to docker group Logout and Login again for group membership re-evaluation.
 
@@ -78,7 +78,7 @@ Note : After adding user to docker group Logout and Login again for group member
 
 .. code-block:: bash
 
-  $ docker run hello-world
+  docker run hello-world
 
 
 
@@ -90,21 +90,21 @@ Docker Compose
 
 .. code-block:: bash
 
-  $ COMPOSE_VERSION="$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep '"tag_name":'\
+  COMPOSE_VERSION="$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep '"tag_name":'\
   | cut -d '"' -f 4)"
 
-  $ COMPOSE_URL="https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/\
+  COMPOSE_URL="https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/\
   docker-compose-$(uname -s)-$(uname -m)"
 
-  $ sudo curl -L "${COMPOSE_URL}" -o /usr/local/bin/docker-compose
+  sudo curl -L "${COMPOSE_URL}" -o /usr/local/bin/docker-compose
 
-  $ sudo chmod +x /usr/local/bin/docker-compose
+  sudo chmod +x /usr/local/bin/docker-compose
 
 2. Verifying installation
 
 .. code-block:: bash
 
-  $ docker-compose --version
+  docker-compose --version
 
 
 
@@ -115,18 +115,18 @@ Pyenv and setting up virtual-env
 
 .. code-block:: bash
 
-  $ sudo apt-get install -y build-essential libssl-dev zlib1g-dev libbz2-dev \
+  sudo apt-get install -y build-essential libssl-dev zlib1g-dev libbz2-dev \
       libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
       xz-utils tk-dev libffi-dev liblzma-dev python-openssl git
 
-  $ sudo apt install build-essentials python3.6-dev python3.7-dev python3.8-dev python-dev openssl \
+  sudo apt install build-essentials python3.6-dev python3.7-dev python3.8-dev python-dev openssl \
        sqlite sqlite-dev default-libmysqlclient-dev libmysqld-dev postgresql
 
 2. Install pyenv
 
 .. code-block:: bash
 
-  $ curl https://pyenv.run | bash
+  curl https://pyenv.run | bash
 
 3. Add the lines suggested at the end of installation  to ~/.bashrc
 
@@ -134,29 +134,29 @@ Pyenv and setting up virtual-env
 
 .. code-block:: bash
 
-  $ exec $SHELL
-  $ pyenv --version
+  exec $SHELL
+  pyenv --version
 
 5. Checking available version, installing required Python version to pyenv and verifying it
 
 .. code-block:: bash
 
-  $ pyenv install --list
-  $ pyenv install 3.8.5
-  $ pyenv versions
+  pyenv install --list
+  pyenv install 3.8.5
+  pyenv versions
 
 6. Creating new virtual environment named ``airflow-env`` for installed version python. In next chapter virtual
    environment ``airflow-env`` will be used for installing airflow.
 
 .. code-block:: bash
 
-  $ pyenv virtualenv 3.8.5 airflow-env
+  pyenv virtualenv 3.8.5 airflow-env
 
 7. Entering virtual environment ``airflow-env``
 
 .. code-block:: bash
 
-  $ pyenv activate airflow-env
+  pyenv activate airflow-env
 
 
 
@@ -239,29 +239,29 @@ Setting up Breeze
 
 .. code-block:: bash
 
-  $ pyenv activate airflow-env
-  $ cd ~/PycharmProjects/airflow/
+  pyenv activate airflow-env
+  cd ~/PycharmProjects/airflow/
 
 2. Initializing breeze autocomplete
 
 .. code-block:: bash
 
-  $ ./breeze setup-autocomplete
-  $ source ~/.bash_completion.d/breeze-complete
+  ./breeze setup-autocomplete
+  source ~/.bash_completion.d/breeze-complete
 
 3. Initialize breeze environment with required python version and backend. This may take a while for first time.
 
 .. code-block:: bash
 
-  $ ./breeze --python 3.8 --backend mysql
+  ./breeze --python 3.8 --backend mysql
 
 4. Creating airflow tables and users. ``airflow db reset`` is required to execute at least once for Airflow Breeze to get
    the database/tables created.
 
 .. code-block:: bash
 
-  $ airflow db reset
-  $ airflow users create --role Admin --username admin --password admin --email admin@example.com --firstname\
+  airflow db reset
+  airflow users create --role Admin --username admin --password admin --email admin@example.com --firstname\
     foo --lastname bar
 
 
@@ -275,7 +275,7 @@ Setting up Breeze
 
 .. code-block:: bash
 
-  $ ./breeze stop
+  ./breeze stop
 
 6. Installing airflow in the local virtual environment ``airflow-env`` with breeze.
 
@@ -283,8 +283,8 @@ Setting up Breeze
 
 .. code-block:: bash
 
-  $ sudo apt-get install sqlite libsqlite3-dev default-libmysqlclient-dev postgresql
-  $ ./breeze initialize-local-virtualenv --python 3.8
+  sudo apt-get install sqlite libsqlite3-dev default-libmysqlclient-dev postgresql
+  ./breeze initialize-local-virtualenv --python 3.8
 
 
 7. Add following line to ~/.bashrc in order to call breeze command from anywhere.
@@ -348,26 +348,26 @@ Using Breeze
 
   .. code-block:: bash
 
-    $ breeze --python 3.8 --backend mysql
+    breeze --python 3.8 --backend mysql
 
   2. Open tmux
 
   .. code-block:: bash
 
-    $ root@0c6e4ff0ab3d:/opt/airflow# tmux
+    root@0c6e4ff0ab3d:/opt/airflow# tmux
 
   3. Press Ctrl + B and "
 
   .. code-block:: bash
 
-    $ root@0c6e4ff0ab3d:/opt/airflow# airflow scheduler
+    root@0c6e4ff0ab3d:/opt/airflow# airflow scheduler
 
 
   4. Press Ctrl + B and %
 
   .. code-block:: bash
 
-    $ root@0c6e4ff0ab3d:/opt/airflow# airflow webserver
+    root@0c6e4ff0ab3d:/opt/airflow# airflow webserver
 
 
 
@@ -408,7 +408,7 @@ Using Breeze
 
 .. code-block:: bash
 
-  $ breeze --help
+  breeze --help
 
 
 For more information visit : |Breeze documentation|
@@ -489,8 +489,8 @@ Setting up Debug
 
   .. code-block:: bash
 
-    $ pyenv activate airflow-env
-    $ pip install PyMySQL
+    pyenv activate airflow-env
+    pip install PyMySQL
 
 - Now set ``sql_alchemy_conn = mysql+pymysql://root:@127.0.0.1:23306/airflow?charset=utf8mb4`` in file
   ``~/airflow/airflow.cfg`` on local machine.
@@ -606,7 +606,7 @@ All Tests are inside ./tests directory.
 
 .. code-block:: bash
 
-   $ breeze --backend mysql --mysql-version 5.7 --python 3.8 --db-reset --test-type All  tests
+   breeze --backend mysql --mysql-version 5.7 --python 3.8 --db-reset --test-type All  tests
 
 
 - Running specific test in container using shell scripts. Testing in container scripts are located in
@@ -645,7 +645,7 @@ All Tests are inside ./tests directory.
 
   .. code-block:: bash
 
-    $ breeze --backend mysql --mysql-version 5.7 --python 3.8 --db-reset --test-type Core
+    breeze --backend mysql --mysql-version 5.7 --python 3.8 --db-reset --test-type Core
 
 
 - Running Integration test for specific test type
@@ -655,7 +655,7 @@ All Tests are inside ./tests directory.
 
   .. code-block:: bash
 
-     $ breeze --backend mysql --mysql-version 5.7 --python 3.8 --db-reset --test-type Core --integration
+     breeze --backend mysql --mysql-version 5.7 --python 3.8 --db-reset --test-type Core --integration
 
        all        kerberos   openldap   presto     redis
        cassandra  mongo      pinot      rabbitmq
@@ -664,7 +664,7 @@ All Tests are inside ./tests directory.
 
   .. code-block:: bash
 
-   $ breeze --backend mysql --mysql-version 5.7 --python 3.8 --db-reset --test-type All --integration mongo
+   breeze --backend mysql --mysql-version 5.7 --python 3.8 --db-reset --test-type All --integration mongo
 
 
 - For more information on Testing visit : |TESTING.rst|
@@ -760,20 +760,20 @@ To avoid burden on CI infrastructure and to save time, Pre-commit hooks can be r
 
 .. code-block:: bash
 
-  $ sudo apt install libxml2-utils
+  sudo apt install libxml2-utils
 
 2. Installing required Python packages
 
 .. code-block:: bash
 
-  $ pyenv activate airflow-env
-  $ pip install pre-commit
+  pyenv activate airflow-env
+  pip install pre-commit
 
 3. Go to your project directory
 
 .. code-block:: bash
 
-  $ cd ~/PycharmProjects/airflow
+  cd ~/PycharmProjects/airflow
 
 
 4. Running pre-commit hooks
@@ -808,7 +808,7 @@ To avoid burden on CI infrastructure and to save time, Pre-commit hooks can be r
 
 .. code-block:: bash
 
-  $ pre-commit run  --files airflow/decorators.py tests/utils/test_task_group.py
+  pre-commit run  --files airflow/decorators.py tests/utils/test_task_group.py
 
 
 
@@ -853,16 +853,16 @@ To avoid burden on CI infrastructure and to save time, Pre-commit hooks can be r
 
 .. code-block:: bash
 
-  $ cd ~/PycharmProjects/airflow
-  $ pre-commit install
-  $ git commit -m "Added xyz"
+  cd ~/PycharmProjects/airflow
+  pre-commit install
+  git commit -m "Added xyz"
 
 9. To disable Pre-commit
 
 .. code-block:: bash
 
-  $ cd ~/PycharmProjects/airflow
-  $ pre-commit uninstall
+  cd ~/PycharmProjects/airflow
+  pre-commit uninstall
 
 
 - For more information on visit |STATIC_CODE_CHECKS.rst|
