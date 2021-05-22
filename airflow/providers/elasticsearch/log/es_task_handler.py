@@ -208,7 +208,7 @@ class ElasticsearchTaskHandler(FileTaskHandler, LoggingMixin):
             try:
                 # pylint: disable=protected-access
                 return self.formatter._style.format(_ESJsonLogFmt(self.json_fields, **log_line.to_dict()))
-            except Exception:  # noqa pylint: disable=broad-except
+            except Exception:  # pylint: disable=broad-except
                 pass
 
         # Just a safe-guard to preserve backwards-compatibility

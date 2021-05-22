@@ -132,7 +132,7 @@ class CloudSQLHook(GoogleBaseHook):
         :rtype: dict
         """
         return (
-            self.get_conn()  # noqa # pylint: disable=no-member
+            self.get_conn()  # pylint: disable=no-member
             .instances()
             .get(project=project_id, instance=instance)
             .execute(num_retries=self.num_retries)
@@ -153,7 +153,7 @@ class CloudSQLHook(GoogleBaseHook):
         :return: None
         """
         response = (
-            self.get_conn()  # noqa # pylint: disable=no-member
+            self.get_conn()  # pylint: disable=no-member
             .instances()
             .insert(project=project_id, body=body)
             .execute(num_retries=self.num_retries)
@@ -181,7 +181,7 @@ class CloudSQLHook(GoogleBaseHook):
         :return: None
         """
         response = (
-            self.get_conn()  # noqa # pylint: disable=no-member
+            self.get_conn()  # pylint: disable=no-member
             .instances()
             .patch(project=project_id, instance=instance, body=body)
             .execute(num_retries=self.num_retries)
@@ -203,7 +203,7 @@ class CloudSQLHook(GoogleBaseHook):
         :return: None
         """
         response = (
-            self.get_conn()  # noqa # pylint: disable=no-member
+            self.get_conn()  # pylint: disable=no-member
             .instances()
             .delete(project=project_id, instance=instance)
             .execute(num_retries=self.num_retries)
@@ -228,7 +228,7 @@ class CloudSQLHook(GoogleBaseHook):
         :rtype: dict
         """
         return (
-            self.get_conn()  # noqa # pylint: disable=no-member
+            self.get_conn()  # pylint: disable=no-member
             .databases()
             .get(project=project_id, instance=instance, database=database)
             .execute(num_retries=self.num_retries)
@@ -251,7 +251,7 @@ class CloudSQLHook(GoogleBaseHook):
         :return: None
         """
         response = (
-            self.get_conn()  # noqa # pylint: disable=no-member
+            self.get_conn()  # pylint: disable=no-member
             .databases()
             .insert(project=project_id, instance=instance, body=body)
             .execute(num_retries=self.num_retries)
@@ -287,7 +287,7 @@ class CloudSQLHook(GoogleBaseHook):
         :return: None
         """
         response = (
-            self.get_conn()  # noqa # pylint: disable=no-member
+            self.get_conn()  # pylint: disable=no-member
             .databases()
             .patch(project=project_id, instance=instance, database=database, body=body)
             .execute(num_retries=self.num_retries)
@@ -311,7 +311,7 @@ class CloudSQLHook(GoogleBaseHook):
         :return: None
         """
         response = (
-            self.get_conn()  # noqa # pylint: disable=no-member
+            self.get_conn()  # pylint: disable=no-member
             .databases()
             .delete(project=project_id, instance=instance, database=database)
             .execute(num_retries=self.num_retries)
@@ -338,7 +338,7 @@ class CloudSQLHook(GoogleBaseHook):
         :return: None
         """
         response = (
-            self.get_conn()  # noqa # pylint: disable=no-member
+            self.get_conn()  # pylint: disable=no-member
             .instances()
             .export(project=project_id, instance=instance, body=body)
             .execute(num_retries=self.num_retries)
@@ -365,7 +365,7 @@ class CloudSQLHook(GoogleBaseHook):
         """
         try:
             response = (
-                self.get_conn()  # noqa # pylint: disable=no-member
+                self.get_conn()  # pylint: disable=no-member
                 .instances()
                 .import_(project=project_id, instance=instance, body=body)
                 .execute(num_retries=self.num_retries)
@@ -389,7 +389,7 @@ class CloudSQLHook(GoogleBaseHook):
         service = self.get_conn()
         while True:
             operation_response = (
-                service.operations()  # noqa # pylint: disable=no-member
+                service.operations()  # pylint: disable=no-member
                 .get(project=project_id, operation=operation_name)
                 .execute(num_retries=self.num_retries)
             )
@@ -674,7 +674,7 @@ CONNECTION_URIS = {
 CLOUD_SQL_VALID_DATABASE_TYPES = ['postgres', 'mysql']
 
 
-class CloudSQLDatabaseHook(BaseHook):  # noqa
+class CloudSQLDatabaseHook(BaseHook):
     # pylint: disable=too-many-instance-attributes
     """
     Serves DB connection configuration for Google Cloud SQL (Connections

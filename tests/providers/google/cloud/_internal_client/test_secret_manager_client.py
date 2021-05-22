@@ -21,7 +21,7 @@ from unittest import TestCase, mock
 from google.api_core.exceptions import NotFound, PermissionDenied
 from google.cloud.secretmanager_v1.types import AccessSecretVersionResponse
 
-from airflow.providers.google.cloud._internal_client.secret_manager_client import _SecretManagerClient  # noqa
+from airflow.providers.google.cloud._internal_client.secret_manager_client import _SecretManagerClient
 from airflow.version import version
 
 INTERNAL_CLIENT_MODULE = "airflow.providers.google.cloud._internal_client.secret_manager_client"

@@ -102,4 +102,4 @@ def main(source_branch: str, target_branch: str):
 
 
 if __name__ == "__main__":
-    main()  # noqa
+    main()

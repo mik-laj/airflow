@@ -432,5 +432,5 @@ if TYPE_CHECKING:
     Stats: StatsLogger
 else:
 
-    class Stats(metaclass=_Stats):  # noqa: D101
+    class Stats(metaclass=_Stats):
         """Empty class for Stats - we use metaclass to inject the right one"""

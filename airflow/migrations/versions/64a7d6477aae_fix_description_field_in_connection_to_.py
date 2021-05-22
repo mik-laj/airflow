@@ -24,8 +24,8 @@ Create Date: 2020-11-25 08:56:11.866607
 
 """
 
-import sqlalchemy as sa  # noqa
-from alembic import op  # noqa
+import sqlalchemy as sa
+from alembic import op
 
 # revision identifiers, used by Alembic.
 revision = '64a7d6477aae'

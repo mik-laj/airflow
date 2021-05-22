@@ -105,7 +105,7 @@ class SensorWork:
         Create task log handler for a sensor work.
         :return: log handler
         """
-        from airflow.utils.log.secrets_masker import _secrets_masker  # noqa
+        from airflow.utils.log.secrets_masker import _secrets_masker
 
         handler_config_copy = {k: handler_config[k] for k in handler_config}
         del handler_config_copy['filters']

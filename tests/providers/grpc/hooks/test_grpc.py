@@ -52,10 +52,10 @@ class StubClass:
     def __init__(self, _):  # pylint: disable=unused-argument
         pass
 
-    def single_call(self, data):  # noqa
+    def single_call(self, data):
         return data
 
-    def stream_call(self, data):  # noqa pylint: disable=unused-argument
+    def stream_call(self, data):  # pylint: disable=unused-argument
         return ["streaming", "call"]
 
 

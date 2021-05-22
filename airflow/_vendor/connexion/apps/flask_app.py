@@ -2,7 +2,7 @@ import datetime
 import logging
 import pathlib
 from decimal import Decimal
-from types import FunctionType  # NOQA
+from types import FunctionType
 
 import flask
 import werkzeug.exceptions

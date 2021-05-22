@@ -201,7 +201,7 @@ def clear_task_instances(
     if job_ids:
         from airflow.jobs.base_job import BaseJob
 
-        for job in session.query(BaseJob).filter(BaseJob.id.in_(job_ids)).all():  # noqa
+        for job in session.query(BaseJob).filter(BaseJob.id.in_(job_ids)).all():
             job.state = State.SHUTDOWN
 
     if activate_dag_runs and tis:
@@ -611,7 +611,7 @@ class TaskInstance(Base, LoggingMixin):  # pylint: disable=R0902,R0904
             self.state = ti.state
             # Get the raw value of try_number column, don't read through the
             # accessor here otherwise it will be incremented by one already.
-            self.try_number = ti._try_number  # noqa pylint: disable=protected-access
+            self.try_number = ti._try_number  # pylint: disable=protected-access
             self.max_tries = ti.max_tries
             self.hostname = ti.hostname
             self.unixname = ti.unixname
@@ -912,7 +912,7 @@ class TaskInstance(Base, LoggingMixin):  # pylint: disable=R0902,R0904
             ti_hash = int(
                 hashlib.sha1(
                     "{}#{}#{}#{}".format(
-                        self.dag_id, self.task_id, self.execution_date, self.try_number  # noqa
+                        self.dag_id, self.task_id, self.execution_date, self.try_number
                     ).encode('utf-8')
                 ).hexdigest(),
                 16,
@@ -1654,7 +1654,7 @@ class TaskInstance(Base, LoggingMixin):  # pylint: disable=R0902,R0904
             def get(
                 item: str,
                 # pylint: disable=protected-access
-                default_var: Any = Variable._Variable__NO_DEFAULT_SENTINEL,  # noqa
+                default_var: Any = Variable._Variable__NO_DEFAULT_SENTINEL,
             ):
                 """Get Airflow Variable value"""
                 return Variable.get(item, default_var=default_var)
@@ -1683,7 +1683,7 @@ class TaskInstance(Base, LoggingMixin):  # pylint: disable=R0902,R0904
             def get(
                 item: str,
                 # pylint: disable=protected-access
-                default_var: Any = Variable._Variable__NO_DEFAULT_SENTINEL,  # noqa
+                default_var: Any = Variable._Variable__NO_DEFAULT_SENTINEL,
             ):
                 """Get Airflow Variable after deserializing JSON value"""
                 return Variable.get(item, default_var=default_var, deserialize_json=True)

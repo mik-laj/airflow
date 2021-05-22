@@ -853,7 +853,7 @@ class SageMakerHook(AwsBaseHook):  # pylint: disable=too-many-public-methods
 
     def list_training_jobs(
         self, name_contains: Optional[str] = None, max_results: Optional[int] = None, **kwargs
-    ) -> List[Dict]:  # noqa: D402
+    ) -> List[Dict]:
         """
         This method wraps boto3's list_training_jobs(). The training job name and max results are configurable
         via arguments. Other arguments are not, and should be provided via kwargs. Note boto3 expects these in
@@ -892,7 +892,7 @@ class SageMakerHook(AwsBaseHook):  # pylint: disable=too-many-public-methods
         )
         return results
 
-    def list_processing_jobs(self, **kwargs) -> List[Dict]:  # noqa: D402
+    def list_processing_jobs(self, **kwargs) -> List[Dict]:
         """
         This method wraps boto3's list_processing_jobs(). All arguments should be provided via kwargs.
         Note boto3 expects these in CamelCase format, for example:

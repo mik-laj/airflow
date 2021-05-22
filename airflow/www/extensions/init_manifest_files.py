@@ -39,7 +39,7 @@ def configure_manifest_files(app):
 
                 for source, target in manifest.copy().items():
                     manifest[source] = os.path.join("dist", target)
-        except Exception:  # noqa pylint: disable=broad-except
+        except Exception:  # pylint: disable=broad-except
             print("Please make sure to build the frontend in static/ directory and restart the server")
 
     def get_asset_url(filename):

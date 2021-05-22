@@ -62,7 +62,7 @@ def task(python_callable: Optional[Callable] = None, multiple_outputs: Optional[
     """
     # To maintain backwards compatibility, we import the task object into this file
     # This prevents breakages in dags that use `from airflow.operators.python import task`
-    from airflow.decorators.python import python_task  # noqa # pylint: disable=unused-import
+    from airflow.decorators.python import python_task  # pylint: disable=unused-import
 
     warnings.warn(
         """airflow.operators.python.task is deprecated. Please use the following instead

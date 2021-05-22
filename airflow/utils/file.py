@@ -195,7 +195,7 @@ def find_dag_file_paths(directory: Union[str, "pathlib.Path"], safe_mode: bool) 
                 continue
 
             file_paths.append(file_path)
-        except Exception:  # noqa pylint: disable=broad-except
+        except Exception:  # pylint: disable=broad-except
             log.exception("Error while examining %s", file_path)
 
     return file_paths

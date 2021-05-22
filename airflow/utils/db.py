@@ -745,10 +745,10 @@ def drop_airflow_models(connection):
     Base.metadata.remove(user)
     Base.metadata.remove(chart)
     # alembic adds significant import time, so we import it lazily
-    from alembic.migration import MigrationContext  # noqa
+    from alembic.migration import MigrationContext
 
     migration_ctx = MigrationContext.configure(connection)
-    version = migration_ctx._version  # noqa pylint: disable=protected-access
+    version = migration_ctx._version  # pylint: disable=protected-access
     if version.exists(connection):
         version.drop(connection)
 

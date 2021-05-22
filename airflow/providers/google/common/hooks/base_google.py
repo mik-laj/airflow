@@ -455,10 +455,10 @@ class GoogleBaseHook(BaseHook):
         """
         key_path = self._get_field(
             'key_path', None
-        )  # type: Optional[str]  # noqa: E501  #  pylint: disable=protected-access
+        )  # type: Optional[str]    #  pylint: disable=protected-access
         keyfile_dict = self._get_field(
             'keyfile_dict', None
-        )  # type: Optional[Dict]  # noqa: E501  # pylint: disable=protected-access
+        )  # type: Optional[Dict]    # pylint: disable=protected-access
         if key_path and keyfile_dict:
             raise AirflowException(
                 "The `keyfile_dict` and `key_path` fields are mutually exclusive. "

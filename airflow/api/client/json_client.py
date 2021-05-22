@@ -36,7 +36,7 @@ class Client(api_client.Client):
             # It is justified here because there might be many resp types.
             try:
                 data = resp.json()
-            except Exception:  # noqa pylint: disable=broad-except
+            except Exception:  # pylint: disable=broad-except
                 data = {}
             raise OSError(data.get('error', 'Server error'))
 

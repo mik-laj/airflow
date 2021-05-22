@@ -259,7 +259,7 @@ class TestPubSubHook(unittest.TestCase):
     @mock.patch(PUBSUB_STRING.format('uuid4'), new_callable=mock.Mock(return_value=lambda: TEST_UUID))
     def test_create_subscription_without_subscription_name(
         self, mock_uuid, mock_service
-    ):  # noqa  # pylint: disable=unused-argument,line-too-long
+    ):  # pylint: disable=unused-argument,line-too-long
         create_method = mock_service.create_subscription
         expected_name = EXPANDED_SUBSCRIPTION.replace(TEST_SUBSCRIPTION, f'sub-{TEST_UUID}')
 

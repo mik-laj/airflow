@@ -141,7 +141,7 @@ class TraceQueries:
         event.listen(airflow.settings.engine, "before_cursor_execute", self.before_cursor_execute)
         event.listen(airflow.settings.engine, "after_cursor_execute", self.after_cursor_execute)
 
-    def __exit__(self, type_, value, traceback):  # noqa pylint: disable=redefined-outer-name
+    def __exit__(self, type_, value, traceback):  # pylint: disable=redefined-outer-name
         import airflow.settings
 
         event.remove(airflow.settings.engine, "before_cursor_execute", self.before_cursor_execute)
@@ -180,7 +180,7 @@ class CountQueries:
         event.listen(airflow.settings.engine, "after_cursor_execute", self.after_cursor_execute)
         return self.result
 
-    def __exit__(self, type_, value, traceback):  # noqa pylint: disable=redefined-outer-name
+    def __exit__(self, type_, value, traceback):  # pylint: disable=redefined-outer-name
         import airflow.settings
 
         event.remove(airflow.settings.engine, "after_cursor_execute", self.after_cursor_execute)

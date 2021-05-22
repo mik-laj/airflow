@@ -89,7 +89,7 @@ class ComputeEngineHook(GoogleBaseHook):
         :type project_id: str
         :return: None
         """
-        # noqa pylint: disable=no-member
+        # pylint: disable=no-member
         response = (
             self.get_conn()
             .instances()
@@ -118,7 +118,7 @@ class ComputeEngineHook(GoogleBaseHook):
         :type project_id: str
         :return: None
         """
-        # noqa pylint: disable=no-member
+        # pylint: disable=no-member
         response = (
             self.get_conn()
             .instances()
@@ -159,7 +159,7 @@ class ComputeEngineHook(GoogleBaseHook):
         self._wait_for_operation_to_complete(project_id=project_id, operation_name=operation_name, zone=zone)
 
     def _execute_set_machine_type(self, zone: str, resource_id: str, body: dict, project_id: str) -> dict:
-        # noqa pylint: disable=no-member
+        # pylint: disable=no-member
         return (
             self.get_conn()
             .instances()
@@ -183,7 +183,7 @@ class ComputeEngineHook(GoogleBaseHook):
             https://cloud.google.com/compute/docs/reference/rest/v1/instanceTemplates
         :rtype: dict
         """
-        # noqa pylint: disable=no-member
+        # pylint: disable=no-member
         response = (
             self.get_conn()
             .instanceTemplates()
@@ -217,7 +217,7 @@ class ComputeEngineHook(GoogleBaseHook):
         :type project_id: str
         :return: None
         """
-        # noqa pylint: disable=no-member
+        # pylint: disable=no-member
         response = (
             self.get_conn()
             .instanceTemplates()
@@ -253,7 +253,7 @@ class ComputeEngineHook(GoogleBaseHook):
             https://cloud.google.com/compute/docs/reference/rest/beta/instanceGroupManagers
         :rtype: dict
         """
-        # noqa pylint: disable=no-member
+        # pylint: disable=no-member
         response = (
             self.get_conn()
             .instanceGroupManagers()
@@ -294,7 +294,7 @@ class ComputeEngineHook(GoogleBaseHook):
         :type project_id: str
         :return: None
         """
-        # noqa pylint: disable=no-member
+        # pylint: disable=no-member
         response = (
             self.get_conn()
             .instanceGroupManagers()

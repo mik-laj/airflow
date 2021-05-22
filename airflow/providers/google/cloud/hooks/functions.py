@@ -156,7 +156,7 @@ class CloudFunctionsHook(GoogleBaseHook):
         :rtype: str
         """
         # fmt: off
-        # pylint: disable=no-member # noqa
+        # pylint: disable=no-member
         response = \
             self.get_conn().projects().locations().functions().generateUploadUrl(
                 parent=self._full_location(project_id, location)

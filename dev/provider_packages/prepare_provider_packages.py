@@ -51,7 +51,7 @@ from rich.syntax import Syntax
 try:
     from yaml import CSafeLoader as SafeLoader
 except ImportError:
-    from yaml import SafeLoader  # noqa
+    from yaml import SafeLoader
 
 INITIAL_CHANGELOG_CONTENT = """
 
@@ -115,7 +115,7 @@ from setup import PROVIDERS_REQUIREMENTS, PREINSTALLED_PROVIDERS  # noqa # isort
 # Note - we do not test protocols as they are not really part of the official API of
 # Apache Airflow
 
-logger = logging.getLogger(__name__)  # noqa
+logger = logging.getLogger(__name__)
 
 PY3 = sys.version_info[0] == 3
 
@@ -755,7 +755,7 @@ def get_package_class_summary(
     for entity in EntityType:
         print_wrong_naming(entity, all_verified_entities[entity].wrong_entities)
 
-    entities_summary: Dict[EntityType, EntityTypeSummary] = {}  # noqa
+    entities_summary: Dict[EntityType, EntityTypeSummary] = {}
 
     for entity_type in EntityType:
         entities_summary[entity_type] = get_details_about_classes(
@@ -1349,7 +1349,7 @@ def get_provider_yaml(provider_package_id: str) -> Dict[str, Any]:
     if not os.path.exists(provider_yaml_file_name):
         raise Exception(f"The provider.yaml file is missing: {provider_yaml_file_name}")
     with open(provider_yaml_file_name) as provider_file:
-        provider_yaml_dict = yaml.load(provider_file, SafeLoader)  # noqa
+        provider_yaml_dict = yaml.load(provider_file, SafeLoader)
     return provider_yaml_dict
 
 
@@ -1753,7 +1753,7 @@ def black_mode():
     config = parse_pyproject_toml(os.path.join(SOURCE_DIR_PATH, "pyproject.toml"))
 
     target_versions = set(
-        target_version_option_callback(None, None, config.get('target_version', [])),  # noqa
+        target_version_option_callback(None, None, config.get('target_version', [])),
     )
 
     return Mode(

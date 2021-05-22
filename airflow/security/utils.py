@@ -39,7 +39,7 @@ import socket
 from airflow.utils.net import get_hostname
 
 
-def get_components(principal):  # noqa: D402
+def get_components(principal):
     """
     get_components(principal) -> (short name, instance (FQDN), realm)
 

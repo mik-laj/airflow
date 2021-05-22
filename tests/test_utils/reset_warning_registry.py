@@ -29,7 +29,7 @@ from typing import Dict, Match, Optional
 # been cleared.
 #
 # Proposed fix from Stack overflow, which refers to the Python bug-page
-# noqa
+
 # https://stackoverflow.com/questions/19428761/python-showing-once-warnings-again-resetting-all-warning-registries
 class reset_warning_registry:  # pylint: disable=invalid-name
     """

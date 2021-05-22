@@ -23,7 +23,7 @@ from google.cloud.spanner_v1.client import Client
 from google.cloud.spanner_v1.database import Database
 from google.cloud.spanner_v1.instance import Instance
 from google.cloud.spanner_v1.transaction import Transaction
-from google.longrunning.operations_grpc_pb2 import Operation  # noqa: F401
+from google.longrunning.operations_grpc_pb2 import Operation
 
 from airflow.exceptions import AirflowException
 from airflow.providers.google.common.hooks.base_google import GoogleBaseHook

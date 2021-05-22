@@ -27,7 +27,7 @@ from unittest import mock
 import celery.contrib.testing.tasks  # noqa: F401 pylint: disable=unused-import
 import pytest
 from celery import Celery
-from celery.backends.base import BaseBackend, BaseKeyValueStoreBackend  # noqa
+from celery.backends.base import BaseBackend, BaseKeyValueStoreBackend
 from celery.backends.database import DatabaseBackend
 from celery.contrib.testing.worker import start_worker
 from celery.result import AsyncResult

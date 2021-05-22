@@ -123,7 +123,7 @@ class ImportFinder(NodeVisitor):
     def process_import(self, import_name: str):
         self.imports.append(import_name)
 
-    def get_import_name_from_import_from(self, node: ImportFrom) -> List[str]:  # noqa
+    def get_import_name_from_import_from(self, node: ImportFrom) -> List[str]:
         """
         Retrieves import name from the "from" import.
         :param node: ImportFrom name

@@ -25,7 +25,7 @@ try:
     # Protocol and TypedDict are only added to typing module starting from
     # python 3.8 we can safely remove this shim import after Airflow drops
     # support for <3.8
-    from typing import (  # type: ignore # noqa # pylint: disable=unused-import
+    from typing import (  # type: ignore  # pylint: disable=unused-import
         Protocol,
         TypedDict,
         runtime_checkable,

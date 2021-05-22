@@ -23,7 +23,7 @@ from unittest.mock import mock_open, patch
 import pytest
 from hvac.exceptions import InvalidPath, VaultError
 
-from airflow.providers.hashicorp._internal_client.vault_client import _VaultClient  # noqa
+from airflow.providers.hashicorp._internal_client.vault_client import _VaultClient
 
 
 class TestVaultClient(TestCase):

@@ -34,7 +34,7 @@ branch_labels = None
 depends_on = None
 
 
-def upgrade():  # noqa: D103
+def upgrade():
     conn = op.get_bind()  # pylint: disable=no-member
     if conn.dialect.name == "mysql":
         op.alter_column(table_name='dag', column_name='last_scheduler_run', type_=mysql.DATETIME(fsp=6))
@@ -79,7 +79,7 @@ def upgrade():  # noqa: D103
         op.alter_column(table_name='xcom', column_name='execution_date', type_=mysql.DATETIME(fsp=6))
 
 
-def downgrade():  # noqa: D103
+def downgrade():
     conn = op.get_bind()  # pylint: disable=no-member
     if conn.dialect.name == "mysql":
         op.alter_column(table_name='dag', column_name='last_scheduler_run', type_=mysql.DATETIME())

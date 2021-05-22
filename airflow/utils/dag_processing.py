@@ -761,7 +761,7 @@ class DagFileProcessorManager(LoggingMixin):  # pylint: disable=too-many-instanc
             try:
                 self.log.debug("Removing old import errors")
                 self.clear_nonexistent_import_errors()  # pylint: disable=no-value-for-parameter
-            except Exception:  # noqa pylint: disable=broad-except
+            except Exception:  # pylint: disable=broad-except
                 self.log.exception("Error removing old import errors")
 
             SerializedDagModel.remove_deleted_dags(self._file_paths)

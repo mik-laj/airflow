@@ -574,7 +574,7 @@ class BaseOperator(Operator, LoggingMixin, TaskMixin, metaclass=BaseOperatorMeta
             self.retry_delay = retry_delay
         else:
             self.log.debug("Retry_delay isn't timedelta object, assuming secs")
-            self.retry_delay = timedelta(seconds=retry_delay)  # noqa
+            self.retry_delay = timedelta(seconds=retry_delay)
         self.retry_exponential_backoff = retry_exponential_backoff
         self.max_retry_delay = max_retry_delay
         if max_retry_delay:
@@ -582,7 +582,7 @@ class BaseOperator(Operator, LoggingMixin, TaskMixin, metaclass=BaseOperatorMeta
                 self.max_retry_delay = max_retry_delay
             else:
                 self.log.debug("Max_retry_delay isn't timedelta object, assuming secs")
-                self.max_retry_delay = timedelta(seconds=max_retry_delay)  # noqa
+                self.max_retry_delay = timedelta(seconds=max_retry_delay)
 
         self.params = params or {}  # Available in templates!
         self.priority_weight = priority_weight
@@ -835,7 +835,7 @@ class BaseOperator(Operator, LoggingMixin, TaskMixin, metaclass=BaseOperatorMeta
         """
         from airflow.models.xcom_arg import XComArg
 
-        def apply_set_upstream(arg: Any):  # noqa
+        def apply_set_upstream(arg: Any):
             if isinstance(arg, XComArg):
                 self.set_upstream(arg.operator)
             elif isinstance(arg, (tuple, set, list)):
@@ -959,7 +959,7 @@ class BaseOperator(Operator, LoggingMixin, TaskMixin, metaclass=BaseOperatorMeta
 
         for k, v in self.__dict__.items():
             if k not in shallow_copy:
-                setattr(result, k, copy.deepcopy(v, memo))  # noqa
+                setattr(result, k, copy.deepcopy(v, memo))
             else:
                 setattr(result, k, copy.copy(v))
         return result
@@ -1044,7 +1044,7 @@ class BaseOperator(Operator, LoggingMixin, TaskMixin, metaclass=BaseOperatorMeta
             if type(content) is not tuple:  # pylint: disable=unidiomatic-typecheck
                 # Special case for named tuples
                 return content.__class__(
-                    *(self.render_template(element, context, jinja_env) for element in content)  # noqa
+                    *(self.render_template(element, context, jinja_env) for element in content)
                 )
             else:
                 return tuple(self.render_template(element, context, jinja_env) for element in content)
@@ -1083,7 +1083,7 @@ class BaseOperator(Operator, LoggingMixin, TaskMixin, metaclass=BaseOperatorMeta
             self.dag.get_template_env()
             if self.has_dag()
             else airflow.templates.SandboxedEnvironment(cache_size=0)
-        )  # noqa
+        )
 
     def prepare_template(self) -> None:
         """

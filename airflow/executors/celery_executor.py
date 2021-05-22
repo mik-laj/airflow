@@ -423,7 +423,7 @@ class CeleryExecutor(BaseExecutor):
                 pass
             else:
                 self.log.info("Unexpected state for %s: %s", key, state)
-        except Exception:  # noqa pylint: disable=broad-except
+        except Exception:  # pylint: disable=broad-except
             self.log.exception("Error syncing the Celery executor, ignoring it.")
 
     def end(self, synchronous: bool = False) -> None:

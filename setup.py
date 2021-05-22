@@ -72,7 +72,7 @@ class CleanCommand(Command):
         for file in files:
             try:
                 os.remove(file)
-            except Exception as e:  # noqa pylint: disable=broad-except
+            except Exception as e:  # pylint: disable=broad-except
                 logger.warning("Error when removing %s: %s", file, e)
 
     def run(self):
@@ -102,7 +102,7 @@ class CompileAssets(Command):
     def finalize_options(self):
         """Set final values for options."""
 
-    def run(self):  # noqa
+    def run(self):
         """Run a command to compile and build assets."""
         subprocess.check_call('./airflow/www/compile_assets.sh')
 
@@ -122,7 +122,7 @@ class ListExtras(Command):
     def finalize_options(self):
         """Set final values for options."""
 
-    def run(self):  # noqa
+    def run(self):
         """List extras."""
         print("\n".join(wrap(", ".join(EXTRAS_REQUIREMENTS.keys()), 100)))
 
@@ -816,7 +816,7 @@ def sort_extras_requirements() -> Dict[str, List[str]]:
     Sort both: extras and list of dependencies to make it easier to analyse problems
     external packages will be first, then if providers are added they are added at the end of the lists.
     """
-    sorted_requirements = dict(sorted(EXTRAS_REQUIREMENTS.items()))  # noqa
+    sorted_requirements = dict(sorted(EXTRAS_REQUIREMENTS.items()))
     for extra_list in sorted_requirements.values():
         extra_list.sort()
     return sorted_requirements
@@ -872,7 +872,7 @@ class AirflowDistribution(Distribution):
         """
         super().parse_config_files(*args, **kwargs)
         if os.getenv(INSTALL_PROVIDERS_FROM_SOURCES) == 'true':
-            self.install_requires = [  # noqa  pylint: disable=attribute-defined-outside-init
+            self.install_requires = [  # pylint: disable=attribute-defined-outside-init
                 req for req in self.install_requires if not req.startswith('apache-airflow-providers-')
             ]
             provider_yaml_files = glob.glob("airflow/providers/**/provider.yaml", recursive=True)

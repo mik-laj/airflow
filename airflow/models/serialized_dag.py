@@ -174,7 +174,7 @@ class SerializedDagModel(Base):
         if isinstance(self.data, dict):
             dag = SerializedDAG.from_dict(self.data)  # type: Any
         else:
-            dag = SerializedDAG.from_json(self.data)  # noqa
+            dag = SerializedDAG.from_json(self.data)
         return dag
 
     @classmethod

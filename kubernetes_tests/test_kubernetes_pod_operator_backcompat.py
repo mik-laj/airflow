@@ -446,7 +446,7 @@ class TestKubernetesPodOperatorSystem(unittest.TestCase):
         volume_mount = self.api_client.sanitize_for_serialization(PodDefaults.VOLUME_MOUNT)
         container = self.api_client.sanitize_for_serialization(PodDefaults.SIDECAR_CONTAINER)
         self.expected_pod['spec']['containers'][0]['args'] = args
-        self.expected_pod['spec']['containers'][0]['volumeMounts'].insert(0, volume_mount)  # noqa
+        self.expected_pod['spec']['containers'][0]['volumeMounts'].insert(0, volume_mount)
         self.expected_pod['spec']['volumes'].insert(0, volume)
         self.expected_pod['spec']['containers'].append(container)
         assert self.expected_pod == actual_pod

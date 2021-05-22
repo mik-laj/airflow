@@ -75,7 +75,7 @@ class SlackAPIOperator(BaseOperator):
             "SlackAPIOperator should not be used directly. Chose one of the subclasses instead"
         )
 
-    def execute(self, **kwargs):  # noqa: D403
+    def execute(self, **kwargs):
         """
         SlackAPIOperator calls will not fail even if the call is not unsuccessful.
         It should not prevent a DAG from completing in success

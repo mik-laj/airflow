@@ -804,7 +804,7 @@ class TestPythonVirtualenvOperator(unittest.TestCase):
 
     def test_with_requirements_pinned(self):
         def f():
-            import funcsigs  # noqa: F401  # pylint: disable=redefined-outer-name,reimported
+            import funcsigs  # pylint: disable=redefined-outer-name,reimported
 
             if funcsigs.__version__ != '0.4':
                 raise Exception

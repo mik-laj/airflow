@@ -323,6 +323,6 @@ def poke_mode_only(cls):
 
 
 if 'BUILDING_AIRFLOW_DOCS' in os.environ:
-    # flake8: noqa: F811
+
     # Monkey patch hook to get good function headers while building docs
     apply_defaults = lambda x: x

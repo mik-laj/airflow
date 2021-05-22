@@ -22,7 +22,7 @@
 import re
 
 from docutils import nodes
-from pygments.lexers import Python3Lexer, PythonLexer, guess_lexer  # noqa pylint: disable=no-name-in-module
+from pygments.lexers import Python3Lexer, PythonLexer, guess_lexer  # pylint: disable=no-name-in-module
 from sphinx.transforms import SphinxTransform
 from sphinx.transforms.post_transforms.code import TrimDoctestFlagsTransform
 
@@ -61,7 +61,7 @@ class TrimDocMarkerFlagsTransform(SphinxTransform):
             try:
                 lexer = guess_lexer(node.rawsource)
                 return isinstance(lexer, (PythonLexer, Python3Lexer))
-            except Exception:  # noqa pylint: disable=broad-except
+            except Exception:  # pylint: disable=broad-except
                 pass
 
         return False

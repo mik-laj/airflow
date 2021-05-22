@@ -6,7 +6,7 @@ import re
 import inflection
 
 from ..http_facts import FORM_CONTENT_TYPES
-from ..lifecycle import ConnexionRequest  # NOQA
+from ..lifecycle import ConnexionRequest
 from ..utils import all_json
 
 try:

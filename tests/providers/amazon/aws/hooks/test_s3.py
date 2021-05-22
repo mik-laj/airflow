@@ -288,7 +288,7 @@ class TestAwsS3Hook:
             hook.load_file_obj(temp_file, "my_key", s3_bucket, acl_policy='public-read')
             response = boto3.client('s3').get_object_acl(
                 Bucket=s3_bucket, Key="my_key", RequestPayer='requester'
-            )  # pylint: disable=no-member # noqa: E501 # pylint: disable=C0301
+            )  # pylint: disable=no-member  # pylint: disable=C0301
             assert (response['Grants'][1]['Permission'] == 'READ') and (
                 response['Grants'][0]['Permission'] == 'FULL_CONTROL'
             )
@@ -311,7 +311,7 @@ class TestAwsS3Hook:
             hook.load_file(temp_file.name, "my_key", s3_bucket, gzip=True, acl_policy='public-read')
             response = boto3.client('s3').get_object_acl(
                 Bucket=s3_bucket, Key="my_key", RequestPayer='requester'
-            )  # pylint: disable=no-member # noqa: E501 # pylint: disable=C0301
+            )  # pylint: disable=no-member  # pylint: disable=C0301
             assert (response['Grants'][1]['Permission'] == 'READ') and (
                 response['Grants'][0]['Permission'] == 'FULL_CONTROL'
             )
@@ -326,7 +326,7 @@ class TestAwsS3Hook:
             hook.copy_object("my_key", "my_key", s3_bucket, s3_bucket)
             response = boto3.client('s3').get_object_acl(
                 Bucket=s3_bucket, Key="my_key", RequestPayer='requester'
-            )  # pylint: disable=no-member # noqa: E501 # pylint: disable=C0301
+            )  # pylint: disable=no-member  # pylint: disable=C0301
             assert (response['Grants'][0]['Permission'] == 'FULL_CONTROL') and (len(response['Grants']) == 1)
 
     @mock_s3
